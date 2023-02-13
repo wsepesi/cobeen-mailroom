@@ -1,7 +1,7 @@
 export default function Admin() {
     return(
         <>
-            <h1>Admin Dashboard</h1>
+            <h1>Admin Dashboard - coming soon</h1>
         </>
     )
 }

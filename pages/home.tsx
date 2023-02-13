@@ -13,11 +13,11 @@ export default function Home() {
                     <Button>Retrieve packages</Button>
                 </Link>
             </div>
-            <div>
+            {/* <div>
                 <Link href='/admin'>
                     <Button>Admin</Button>
                 </Link>
-            </div>
+            </div> */}
         </>
     )
 }
