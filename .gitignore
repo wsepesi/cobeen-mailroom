@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+scripts/data/*
+scrips/*.ipynb
+scripts/__pycache__/*
+scripts/.ipynb_checkpoints/*
