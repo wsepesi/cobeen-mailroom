@@ -8,4 +8,5 @@ function handleErrors<A extends any[]>(p: (...args: A) => Promise<void>): (...ar
     }
 }
 
+
 export { handleErrors }

@@ -1,10 +1,7 @@
-from pymongo import MongoClient
-import os
-from dotenv import load_dotenv
-from util import *
+from util import get_collection
 
 def run():
-    collection = get_cobeen()
+    collection = get_collection('cobeen')
     collection.delete_many({})
 
 if __name__ == "__main__":
