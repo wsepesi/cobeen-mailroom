@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { Student } from "./get-students";
-import { env } from "process";
+import { getCollection } from "@/lib/getCollection";
 
 type Package = {
     _id: ObjectId,
@@ -16,9 +16,7 @@ type Package = {
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {
         const student = req.body as Student
-        const uri: string = env.MONGODB_URI as string;
-        const client = new MongoClient(uri)
-        const collection = client.db("Mailroom").collection("Packages")
+        const collection = getCollection("Packages")
 
         const package_data = {
             First: student.First_Name,

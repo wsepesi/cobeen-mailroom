@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
 
-def get_cobeen():
+def get_collection(name: str):
     # connect to mongodb, and get db "Mailroom"
     # get MONGODB_URI from .env.local
     load_dotenv(dotenv_path='../.env.local')
@@ -13,6 +13,6 @@ def get_cobeen():
     # print(db.list_collection_names())
 
     # get collection "cobeen" and remove all entries
-    collection = db.cobeen
+    collection = db[name]
 
     return collection
