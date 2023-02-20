@@ -55,7 +55,8 @@ export default function Retrieve() {
         submit: removeAndLogPackage,
         acLabel: 'Package',
         buttonLabel: 'Mark package retrieved',
-        displayOption: (mailPackage: Package) => `#${mailPackage.packageId} : ${mailPackage.Last}, ${mailPackage.First}`
+        displayOption: (mailPackage: Package) => `#${mailPackage.packageId} : ${mailPackage.Last}, ${mailPackage.First}`,
+        reload: true
     }
 
     return(

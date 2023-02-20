@@ -29,7 +29,8 @@ const Add = () => {
         submit: addPackage,
         acLabel: 'Student',
         buttonLabel: 'Add package',
-        displayOption: (student: Student) => `${student.Last_Name}, ${student.First_Name}`
+        displayOption: (student: Student) => `${student.Last_Name}, ${student.First_Name}`,
+        reload: false
     }
 
     return(
