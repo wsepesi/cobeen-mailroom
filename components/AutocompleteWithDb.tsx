@@ -15,7 +15,8 @@ type AcProps = {
     submit: (obj: any | null) => Promise<void>, //TODO: fix
     acLabel: string,
     buttonLabel: string,
-    displayOption: (obj: any | null) => string //TODO: Fix
+    displayOption: (obj: any | null) => string, //TODO: Fix,
+    reload: boolean
 }
 
 type MaybeData = {
@@ -37,7 +38,7 @@ const useData = (apiRoute: string): MaybeData => {
 }
 
 const AutocompleteWithDb = (props: AcProps): ReactElement => {
-    const { apiRoute, submit, acLabel, buttonLabel, displayOption } = props
+    const { apiRoute, submit, acLabel, buttonLabel, displayOption, reload } = props
     const [record, setRecord] = useState<Record<string, any> | null>(null)
     const [inputValue, setInputValue] = useState<string>('')
     const { records, isLoading, isError } = useData(apiRoute)
@@ -47,7 +48,7 @@ const AutocompleteWithDb = (props: AcProps): ReactElement => {
         try {
             await submit(record)
             // refresh the page
-            window.location.reload()
+            if (reload) window.location.reload()
         } catch (error) {
             alert("An error has occured. Please speak to the facilities manager")
         }

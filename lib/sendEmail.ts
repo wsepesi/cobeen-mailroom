@@ -35,7 +35,7 @@ const sendEmail = async (pkg: Package) => {
 
     const mailOptions = {
         from: WILLIAM_EMAIL, // TODO: refactor to custom acct
-        to: "w.sepesi@att.net", // TODO: refactor to pkg.Email
+        to: DOMINIC_EMAIL, // TODO: refactor to pkg.Email
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
         replyTo: DOMINIC_EMAIL,
