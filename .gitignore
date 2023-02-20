@@ -39,3 +39,5 @@ scripts/data/*
 scrips/*.ipynb
 scripts/__pycache__/*
 scripts/.ipynb_checkpoints/*
+
+lib/msft_auth/*
