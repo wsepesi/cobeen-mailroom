@@ -1,9 +1,18 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+
 import Link from "next/link";
 
 export default function Home() {
     return(
-        <>
+        <Box sx={{
+            // center on page, with buttons set with space between and increased in size
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            alignContent: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+        }}>
             <div>
                 <Link href='/add'>
                     <Button>Register new packages</Button>
@@ -18,6 +27,6 @@ export default function Home() {
                     <Button>Admin</Button>
                 </Link>
             </div> */}
-        </>
+        </Box>
     )
 }

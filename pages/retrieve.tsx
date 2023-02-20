@@ -1,5 +1,6 @@
 import AutocompleteWithDb, { AcProps } from "@/components/AutocompleteWithDb";
 
+import { Box } from "@mui/material";
 import GoBack from "@/components/GoBack";
 import { LogPackage } from "./api/log-package";
 import { ObjectId } from "mongodb";
@@ -58,7 +59,15 @@ export default function Retrieve() {
     }
 
     return(
-        <>
+        <Box sx={{
+            // center on page and align all internal elements to center
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            alignContent: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+        }}>
             <h1>Retrieve packages</h1>
             <div>
                 <h3>Search for a package ID or student name:</h3>
@@ -68,6 +77,6 @@ export default function Retrieve() {
                 />
                 <GoBack />
             </div>
-        </>
+        </Box>
     )
 }

@@ -33,14 +33,22 @@ const Add = () => {
     }
 
     return(
-        <>
+        <Box sx={{
+            // center on page and align all internal elements to center
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            alignContent: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+        }}>
             <h1>Register new packages</h1>
             <AutocompleteWithDb {
                 ...props
             }
             />
             <GoBack />
-        </>
+        </Box>
     )
 }
 

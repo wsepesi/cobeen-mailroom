@@ -1,9 +1,7 @@
-import { Button, Input, TextField, Typography } from "@mui/material";
+import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { NextRouter, useRouter } from "next/router";
 
 import Head from "next/head";
-import Link from "next/link";
-import axios from 'axios';
 // import bcrypt from 'bcrypt';
 import { useState } from "react";
 
@@ -58,7 +56,15 @@ export default function Login() {
     // console.log(data)
 
     return(
-        <>
+        <Box sx={{
+            // center horizontally and vertically
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            alignContent: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+        }}>
             <Head>
                 <title>Mailroom Login</title>
                 <meta name="description" content="Login page" />
@@ -72,6 +78,6 @@ export default function Login() {
                 <TextField id="password" label="Password" variant="outlined" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
                 <Button onClick={useLoginTemp}>Login</Button> 
             </main>
-        </>
+        </Box>
     )
 }

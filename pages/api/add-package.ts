@@ -1,16 +1,25 @@
-import { MongoClient, ObjectId } from "mongodb";
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { ObjectId } from "mongodb";
 import { Student } from "./get-students";
 import { getCollection } from "@/lib/getCollection";
+import sendEmail from "@/lib/sendEmail";
 
 type Package = {
     _id: ObjectId,
     First: string,
     Last: string,
     Email: string,
-    packageId: number
+    packageId: number,
+    // provider: string
+}
+
+type InputPackage = {
+    First: string,
+    Last: string,
+    Email: string,
+    Provider: string
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
@@ -28,13 +37,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
             .insertOne(package_data)
         ).insertedId
 
-        // wait .5s for the package to be created and counter to be incremented
-        await new Promise(resolve => setTimeout(resolve, 500))
+        // wait 1s for the package to be created and counter to be incremented
+        await new Promise(resolve => setTimeout(resolve, 1000))
 
         // get inserted object back using id
         const inserted_object = (await collection
             .findOne({ _id: inserted_id })
         ) as Package
+
+        sendEmail(inserted_object)
 
         res.json(inserted_object)
   } catch (e) {
