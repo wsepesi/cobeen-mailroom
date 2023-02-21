@@ -37,8 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
             .insertOne(package_data)
         ).insertedId
 
-        // wait 1s for the package to be created and counter to be incremented
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        // wait 1.5s for the package to be created and counter to be incremented
+        await new Promise(resolve => setTimeout(resolve, 1500))
 
         // get inserted object back using id
         const inserted_object = (await collection
