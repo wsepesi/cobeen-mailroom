@@ -2,6 +2,7 @@ import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { NextRouter, useRouter } from "next/router";
 
 import Head from "next/head";
+import styles from '@/styles/Home.module.css'
 // import bcrypt from 'bcrypt';
 import { useState } from "react";
 
@@ -64,6 +65,7 @@ export default function Login() {
             alignContent: 'center',
             justifyContent: 'center',
             height: '100vh',
+            color: "#eab676"
         }}>
             <Head>
                 <title>Mailroom Login</title>
@@ -71,12 +73,12 @@ export default function Login() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main>
-                <h5>Temp dummy login</h5>
+            <main className={styles.name}>
+                <h5>Temporary Login Placeholder</h5>
                 {/* <Typography variant='h1'>Mailroom Management Login</Typography> */}
                 {/* <TextField id="username" label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
                 <TextField id="password" label="Password" variant="outlined" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
-                <Button onClick={useLoginTemp}>Login</Button> 
+                <Button onClick={useLoginTemp}>Continue to Home</Button> 
             </main>
         </Box>
     )

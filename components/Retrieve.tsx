@@ -1,10 +1,9 @@
-import AutocompleteWithDb, { AcProps } from "@/components/AutocompleteWithDb";
+import { LogPackage, Package } from "@/lib/types";
 
+import AutocompleteWithDb from "@/components/AutocompleteWithDb";
 import { Box } from "@mui/material";
 import GoBack from "@/components/GoBack";
-import { LogPackage } from "./api/log-package";
 import { ObjectId } from "mongodb";
-import { Package } from "./api/add-package";
 
 const removeAndLogPackage = async (obj: Package | null) => {
     if (obj === null) {
@@ -48,16 +47,15 @@ const removeAndLogPackage = async (obj: Package | null) => {
 
 }
 
-export default function Retrieve() {
-
-    const props: AcProps = {
-        apiRoute: 'get-packages',
-        submit: removeAndLogPackage,
-        acLabel: 'Package',
-        buttonLabel: 'Mark package retrieved',
-        displayOption: (mailPackage: Package) => `#${mailPackage.packageId} : ${mailPackage.Last}, ${mailPackage.First}`,
-        reload: true
-    }
+const Retrieve = () => {
+    // const props: AcProps = {
+    //     apiRoute: 'get-packages',
+    //     submit: removeAndLogPackage,
+    //     acLabel: 'Package',
+    //     buttonLabel: 'Mark package retrieved',
+    //     displayOption: (mailPackage: Package) => `#${mailPackage.packageId} : ${mailPackage.Last}, ${mailPackage.First}`,
+    //     reload: true
+    // }
 
     return(
         <Box sx={{
@@ -72,12 +70,14 @@ export default function Retrieve() {
             <h1>Retrieve packages</h1>
             <div>
                 <h3>Search for a package ID or student name:</h3>
-                <AutocompleteWithDb {
+                {/* <AutocompleteWithDb {
                     ...props
                 }
                 />
-                <GoBack />
+                <GoBack /> */}
             </div>
         </Box>
     )
 }
+
+export default Retrieve

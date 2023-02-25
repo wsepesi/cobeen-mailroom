@@ -2,22 +2,13 @@ import { MongoClient, ObjectId } from "mongodb";
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { Student } from "@/lib/types";
 import { getCollection } from "@/lib/getCollection";
 
 type Data = {
     records: Student[]
 }
 
-type Student = {
-    _id: ObjectId,
-    Age: number,
-    Bed_Space: string,
-    Rm_Type_Desc: string,
-    Last_Name: string,
-    First_Name: string,
-    University_ID: number,
-    Default_Email: string,
-}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
@@ -35,4 +26,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 };
 
 export default handler
-export type { Student }

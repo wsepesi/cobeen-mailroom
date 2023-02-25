@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { Package } from "./add-package";
+import { Package } from '@/lib/types';
 import { getCollection } from "@/lib/getCollection";
 
 type Data = {
