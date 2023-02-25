@@ -149,9 +149,9 @@ const Retrieve = () => {
                         onClick={handleIdClick} 
                         variant="contained"
                         // color blue primary
-                        sx={{
-                            color: 'primary.main'
-                        }}
+                        // sx={{
+                        //     // color: 'primary.main'
+                        // }}
                     >
                         Search for packages with this ID
                     </Button>
@@ -194,26 +194,6 @@ const Retrieve = () => {
             </Box>
             {retrievingPackages && <CircularProgress />}
         </Box>
-
-        // <Box sx={{
-        //     // center on page and align all internal elements to center
-        //     display: 'flex',
-        //     flexDirection: 'column',
-        //     alignItems: 'center',
-        //     alignContent: 'center',
-        //     justifyContent: 'center',
-        //     height: '100vh',
-        // }}>
-        //     <h1>Retrieve packages</h1>
-        //     <div>
-        //         <h3>Search for a package ID or student name:</h3>
-        //         {/* <AutocompleteWithDb {
-        //             ...props
-        //         }
-        //         />
-        //         <GoBack /> */}
-        //     </div>
-        // </Box>
     )
 }
 
