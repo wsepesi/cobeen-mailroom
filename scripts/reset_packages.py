@@ -17,7 +17,7 @@ def run():
     # update the count to 1 using obj as _id
     res = count_collection.find_one_and_update(
         {"_id" : obj},
-        {"$set": {"seq_value": 0}},
+        {"$set": {"seq_value": 1}},
         upsert=True
     )
 

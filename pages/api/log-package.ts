@@ -1,18 +1,9 @@
+import { LogPackage, Package } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ObjectId } from 'mongodb';
-import { Package } from "./add-package";
 import { getCollection } from "@/lib/getCollection";
-
-type LogPackageNoId = Omit<Package, "_id"> & {
-    ingestedTime: Date,
-    resolved: boolean
-}
-
-type LogPackage = LogPackageNoId & {
-    _id: ObjectId
-}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<LogPackage>) => {
   try {
@@ -48,4 +39,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<LogPackage>) =>
 };
 
 export default handler
-export type { LogPackage }

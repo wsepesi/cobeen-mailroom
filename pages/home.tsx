@@ -1,11 +1,17 @@
 import { Box, Button } from "@mui/material";
 
-import Link from "next/link";
+import Add from "@/components/Add";
+import Popup from "@/components/Popup";
+import Retrieve from "@/components/Retrieve";
+import styles from '@/styles/Home.module.css'
+import { useState } from "react";
 
 export default function Home() {
+    const [openAdd, setOpenAdd] = useState(false)
+    const [openRetrieve, setOpenRetrieve] = useState(false)
+    
     return(
         <Box sx={{
-            // center on page, with buttons set with space between and increased in size
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -14,13 +20,33 @@ export default function Home() {
             height: '100vh',
         }}>
             <div>
-                <Link href='/add'>
-                    <Button>Register new packages</Button>
-                </Link>
-                
-                <Link href='/retrieve'>
-                    <Button>Retrieve packages</Button>
-                </Link>
+                <Button 
+                    className={styles.button}
+                    onClick={() => setOpenAdd(true)}
+                >
+                    Register new packages
+                </Button>
+                <Button 
+                    className={styles.button}
+                    onClick={() => setOpenRetrieve(true)}
+                >
+                    Retrieve packages
+                </Button>
+
+                <Popup
+                    open={openAdd}
+                    handleClose={() => setOpenAdd(false)}
+                    title="Register new packages"
+                >
+                    <Add />
+                </Popup>
+                <Popup
+                    open={openRetrieve}
+                    handleClose={() => setOpenRetrieve(false)}
+                    title="Retrieve packages"
+                >
+                    <Retrieve />
+                </Popup>
             </div>
             {/* <div>
                 <Link href='/admin'>

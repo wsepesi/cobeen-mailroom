@@ -1,29 +1,10 @@
-import { Autocomplete, Box, Button, TextField } from "@mui/material";
-import { ReactElement, useEffect, useState } from "react";
+import { AcProps, Data, MaybeData } from "@/lib/types";
+import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
+import { ReactElement, useState } from "react";
 
-import { handleErrors } from "@/lib/utility";
 import useSWR from 'swr'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
-
-type Data = {
-    records: Record<string, any>[]
-}
-
-type AcProps = {
-    apiRoute: string,
-    submit: (obj: any | null) => Promise<void>, //TODO: fix
-    acLabel: string,
-    buttonLabel: string,
-    displayOption: (obj: any | null) => string, //TODO: Fix,
-    reload: boolean
-}
-
-type MaybeData = {
-    records: Record<string, any>[] | null,
-    isLoading: boolean,
-    isError: Error
-}
 
 const useData = (apiRoute: string): MaybeData => {
     const { data, error, isLoading } = useSWR<Data, any, any>(`/api/${apiRoute}`, fetcher);
@@ -38,25 +19,13 @@ const useData = (apiRoute: string): MaybeData => {
 }
 
 const AutocompleteWithDb = (props: AcProps): ReactElement => {
-    const { apiRoute, submit, acLabel, buttonLabel, displayOption, reload } = props
-    const [record, setRecord] = useState<Record<string, any> | null>(null)
+    const { apiRoute, acLabel, displayOption, record, setRecord } = props
     const [inputValue, setInputValue] = useState<string>('')
     const { records, isLoading, isError } = useData(apiRoute)
 
-    const handleSubmit = handleErrors(async () => {
-        // recall isData
-        try {
-            await submit(record)
-            // refresh the page
-            if (reload) window.location.reload()
-        } catch (error) {
-            alert("An error has occured. Please speak to the facilities manager")
-        }
-    })
-
     return(
         <>
-            {isLoading && <p>Loading...</p>}
+            {isLoading && <CircularProgress /> }
             {(!isLoading && isError) && <p>{isError.message}</p>}   
             {records && 
                 <div>
@@ -89,7 +58,6 @@ const AutocompleteWithDb = (props: AcProps): ReactElement => {
                                 label={acLabel}
                         />}
                     />
-                    <Button variant="contained" onClick={handleSubmit}>{buttonLabel}</Button>
                 </div>
             }
         </>
@@ -97,5 +65,3 @@ const AutocompleteWithDb = (props: AcProps): ReactElement => {
 }
 
 export default AutocompleteWithDb
-
-export type { AcProps }
