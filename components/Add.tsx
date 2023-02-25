@@ -98,7 +98,7 @@ const Add = () => {
                                     onClick={handleSubmit}
                                     sx={{
                                         mt: 2,
-                                        color: 'primary.main',
+                                        // color: 'primary.main',
                                     }}
                                 >
                                     Add Package

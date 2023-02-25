@@ -65,7 +65,7 @@ export default function Login() {
             alignContent: 'center',
             justifyContent: 'center',
             height: '100vh',
-            color: "#eab676"
+            // color: "#eab676"
         }}>
             <Head>
                 <title>Mailroom Login</title>
@@ -73,7 +73,7 @@ export default function Login() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={styles.name}>
+            <main>
                 <h5>Temporary Login Placeholder</h5>
                 {/* <Typography variant='h1'>Mailroom Management Login</Typography> */}
                 {/* <TextField id="username" label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />

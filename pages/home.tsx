@@ -3,8 +3,14 @@ import { Box, Button } from "@mui/material";
 import Add from "@/components/Add";
 import Popup from "@/components/Popup";
 import Retrieve from "@/components/Retrieve";
-import styles from '@/styles/Home.module.css'
+// import styles from '@/styles/Home.module.css'
 import { useState } from "react";
+
+const styles = {
+    padding: "0.5em 1em",
+    fontSize: "1.2em",
+    margin: "0.5em"
+}
 
 export default function Home() {
     const [openAdd, setOpenAdd] = useState(false)
@@ -21,13 +27,13 @@ export default function Home() {
         }}>
             <div>
                 <Button 
-                    className={styles.button}
+                    sx={styles}
                     onClick={() => setOpenAdd(true)}
                 >
                     Register new packages
                 </Button>
                 <Button 
-                    className={styles.button}
+                    sx={styles}
                     onClick={() => setOpenRetrieve(true)}
                 >
                     Retrieve packages
