@@ -15,15 +15,12 @@ const Popup = (props: Props): React.ReactElement => {
     return (
         <Dialog open={open} onClose={handleClose} maxWidth={false}>
             <DialogTitle sx={{
-                // bold the font, and do space between
                 fontWeight: 'bold',
                 display: 'flex',
                 justifyContent: 'space-between',
-                // center vertically
                 alignItems: 'center',
             }}>
                 {title}
-                {/* IconButton with mui X icon */}
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}

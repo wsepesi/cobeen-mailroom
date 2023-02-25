@@ -9,7 +9,8 @@ type PackageNoIds = {
     First: string,
     Last: string,
     Email: string,
-    provider: string
+    provider: string,
+    studentId: number,
 }
 
 type Data = {
@@ -38,7 +39,8 @@ type Package = {
     Last: string,
     Email: string,
     packageId: number,
-    provider: string
+    provider: string,
+    studentId: number,
 }
 
 type Student = {

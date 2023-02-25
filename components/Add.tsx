@@ -22,7 +22,8 @@ const Add = () => {
                 First: obj.First_Name,
                 Last: obj.Last_Name,
                 Email: obj.Default_Email,
-                provider: carrier
+                provider: carrier,
+                studentId: obj.University_ID
             }
             
             const res = await fetch('/api/add-package', {
@@ -60,7 +61,14 @@ const Add = () => {
     }
 
     return(
-        <>
+        <Box sx={{ 
+            mt: 3, 
+            mb: 3,
+            // center everything
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            }}>
             {!addingPackage && 
                 <>
                     <AutocompleteWithDb {...props }/>
@@ -113,7 +121,7 @@ const Add = () => {
                 </Collapse>
             </Box>
             {addingPackage && <CircularProgress />}
-        </>
+        </Box>
     )
 }
 
