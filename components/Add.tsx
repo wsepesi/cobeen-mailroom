@@ -2,6 +2,7 @@ import { AcProps, Package, PackageNoIds, Student } from "@/lib/types";
 import { Alert, Box, Button, CircularProgress, Collapse, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
 import AutocompleteWithDb from "@/components/AutocompleteWithDb";
+import ReportName from "./ReportName";
 import { useState } from "react";
 
 const Add = () => {
@@ -9,6 +10,8 @@ const Add = () => {
     const [addedPackage, setAddedPackage] = useState<null | Package>(null)
     const [carrier, setCarrier] = useState<string | null>(null)
     const [record, setRecord] = useState<Record<string, any> | null>(null)
+    const [loaded, setLoaded] = useState(false)
+    const [noName, setNoName] = useState(false)
 
     const addPackage = async (obj: Student | null) => {
         if (obj === null || carrier === null) {
@@ -44,6 +47,10 @@ const Add = () => {
         }
     }
 
+    const handleNoName = () => {
+        setNoName(true)
+    }
+
     const handleCarrierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCarrier((event.target as HTMLInputElement).value);
     };
@@ -53,25 +60,47 @@ const Add = () => {
         acLabel: 'Student',
         displayOption: (student: Student) => `${student.Last_Name}, ${student.First_Name}`,
         record: record,
-        setRecord: setRecord
+        setRecord: setRecord,
+        setLoaded
     }
 
     const handleSubmit = () => {
         addPackage(record as Student)
     }
 
+    const handleClose = () => {
+        setNoName(false)
+    }
+
     return(
         <Box sx={{ 
             mt: 3, 
             mb: 3,
-            // center everything
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             }}>
             {!addingPackage && 
                 <>
-                    <AutocompleteWithDb {...props }/>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                    }}>
+                        <AutocompleteWithDb {...props }/>
+                        {loaded && <Button
+                            sx={{
+                                color: 'error.main',
+                                borderColor: 'error.main',
+                                '&:hover': {
+                                    color: 'error.dark',
+                                    borderColor: 'error.dark',
+                                },
+                                ml: 1
+                            }}
+                            onClick={handleNoName}
+                        >Report Missing Name</Button>}
+                    </Box>
+                    <ReportName open={noName} handleClose={handleClose}/>
                     <Collapse in={record !== null}>
                         <Box sx={{
                             display: 'flex',

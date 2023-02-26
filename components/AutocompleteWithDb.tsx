@@ -1,6 +1,6 @@
 import { AcProps, Data, MaybeData } from "@/lib/types";
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import useSWR from 'swr'
 
@@ -19,9 +19,15 @@ const useData = (apiRoute: string): MaybeData => {
 }
 
 const AutocompleteWithDb = (props: AcProps): ReactElement => {
-    const { apiRoute, acLabel, displayOption, record, setRecord } = props
+    const { apiRoute, acLabel, displayOption, record, setRecord, setLoaded } = props
     const [inputValue, setInputValue] = useState<string>('')
     const { records, isLoading, isError } = useData(apiRoute)
+
+    useEffect(() => {
+        if (records !== null) {
+            setLoaded(true)
+        }
+    }, [records, setLoaded])
 
     return(
         <>

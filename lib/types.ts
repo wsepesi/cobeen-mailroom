@@ -24,7 +24,8 @@ type AcProps = {
     displayOption: (obj: any | null) => string, //TODO: Fix,
     // reload: boolean,
     record: Record<string, any> | null,
-    setRecord: any //TODO: fix
+    setRecord: any, //TODO: fix
+    setLoaded: any, //TODO: fix
 }
 
 type MaybeData = {
