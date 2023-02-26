@@ -87,7 +87,7 @@ const Add = () => {
                         flexDirection: 'row',
                     }}>
                         <AutocompleteWithDb {...props }/>
-                        {loaded && <Button
+                        {(loaded && (record === null)) && <Button
                             sx={{
                                 color: 'error.main',
                                 borderColor: 'error.main',
