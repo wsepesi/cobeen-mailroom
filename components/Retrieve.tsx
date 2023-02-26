@@ -54,6 +54,7 @@ const Retrieve = () => {
     const [retrievedPackages, setRetrievedPackages] = useState<Package[] | null>(null)
     const [retrievingPackages, setRetrievingPackages] = useState(false)
     const [findingPackages, setFindingPackages] = useState(false)
+    const [loaded, setLoaded] = useState(false)
 
     const [checkedItems, setCheckedItems] = useState({});
     useEffect(() => {
@@ -102,7 +103,8 @@ const Retrieve = () => {
         acLabel: "Student ID",
         displayOption: (student: Student) => `${student.University_ID}`,
         record: student,
-        setRecord: setStudent
+        setRecord: setStudent,
+        setLoaded: setLoaded
     }
 
     const handleIdClick = async () => {
@@ -145,16 +147,12 @@ const Retrieve = () => {
                     }}
                 >
                     <AutocompleteWithDb {...props} />
-                    <Button 
+                    {loaded && <Button 
                         onClick={handleIdClick} 
                         variant="contained"
-                        // color blue primary
-                        // sx={{
-                        //     // color: 'primary.main'
-                        // }}
                     >
                         Search for packages with this ID
-                    </Button>
+                    </Button>}
                 </Box>
                 {findingPackages && <CircularProgress sx={{ mt: 1, mb: 1 }} />}
                 <Collapse in={packages !== null && student !== null}>
