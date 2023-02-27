@@ -175,7 +175,7 @@ const Retrieve = () => {
                                 ))}
                             </FormGroup>
                         </FormControl>
-                        <Button onClick={handlePickup} variant="contained" sx={{ color: 'primary.main' }}>Pick up selected packages</Button>
+                        <Button onClick={handlePickup} variant="contained" /*sx={{ color: 'primary.main' }}*/>Pick up selected packages</Button>
                     </Box>
                 </Collapse>
             </>}

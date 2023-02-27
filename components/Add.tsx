@@ -36,10 +36,15 @@ const Add = () => {
                 },
                 body: JSON.stringify(pkg)
             })
+
+            if (res.status === 500) {
+                console.log('failed to send package, or email')
+                console.log('failed pkg', pkg)
+            }
     
             const added_package: Package = await res.json()
     
-            console.log(added_package)
+            console.log('added pkg', added_package)
 
             setAddingPackage(false)
             setAddedPackage(added_package)

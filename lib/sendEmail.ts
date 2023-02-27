@@ -34,7 +34,7 @@ const sendEmail = async (pkg: Package) => {
     });
 
     const mailOptions = {
-        from: COBEEN_EMAIL,
+        from: DOMINIC_EMAIL,
         to: pkg.Email,
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
