@@ -13,7 +13,7 @@ const ReportName = (props: Props) => {
 
     const logMissing = () => {
         console.log(name)
-        alert('Temporarily not implemented. Please contact the facilities manager if you need to report a missing name.')
+        alert('Please put the package in the designated bucket')
         handleClose()
     }
 

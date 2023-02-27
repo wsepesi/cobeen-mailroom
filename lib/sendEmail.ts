@@ -2,7 +2,7 @@ import { Package } from './types'
 import nodemailer from 'nodemailer'
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
-const WILLIAM_EMAIL = "wesepesi@gmail.com"
+// const WILLIAM_EMAIL = "wesepesi@gmail.com"
 const COBEEN_EMAIL = "cobeenmail@gmail.com"
 
 // TODO: refactor to this ? https://mjml.io/try-it-live
@@ -21,8 +21,8 @@ const sendEmail = async (pkg: Package) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: COBEEN_EMAIL, //WILLIAM_EMAIL,
-          pass: process.env.COBEEN_GMAIL_PASS //process.env.WS_GMAIL_PASS,
+          user: COBEEN_EMAIL,
+          pass: process.env.COBEEN_GMAIL_PASS 
         }
       });
 
@@ -34,8 +34,8 @@ const sendEmail = async (pkg: Package) => {
     });
 
     const mailOptions = {
-        from: WILLIAM_EMAIL, // TODO: refactor to custom acct
-        to: DOMINIC_EMAIL, // TODO: refactor to pkg.Email
+        from: COBEEN_EMAIL,
+        to: pkg.Email,
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
         replyTo: DOMINIC_EMAIL,
