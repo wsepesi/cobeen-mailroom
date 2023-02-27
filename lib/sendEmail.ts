@@ -33,7 +33,7 @@ const sendEmail = async (pkg: Package) => {
         }
     });
 
-    console.log(pkg.Email)
+    // console.log(pkg.Email)
 
     const mailOptions = {
         from: DOMINIC_EMAIL,
@@ -43,43 +43,7 @@ const sendEmail = async (pkg: Package) => {
         replyTo: DOMINIC_EMAIL,
     }
 
-    const mailOptions2 = {
-        from: DOMINIC_EMAIL,
-        to: DOMINIC_EMAIL,
-        subject: "Package Available for Pickup",
-        text: getEmailContent(pkg),
-        replyTo: DOMINIC_EMAIL,
-    }
-
-    const mailOptions3 = {
-        from: COBEEN_EMAIL,
-        to: DOMINIC_EMAIL,
-        subject: "Package Available for Pickup",
-        text: getEmailContent(pkg),
-        replyTo: DOMINIC_EMAIL,
-    }
-
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-            throw new Error("transporter sendMail failed");
-        } 
-    });
-
-    // wait 2 seconds to send the next email
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    transporter.sendMail(mailOptions2, (error, info) => {
-        if (error) {
-            console.log(error);
-            throw new Error("transporter sendMail failed");
-        } 
-    });
-
-    // wait 2 seconds to send the next email
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    transporter.sendMail(mailOptions3, (error, info) => {
         if (error) {
             console.log(error);
             throw new Error("transporter sendMail failed");
