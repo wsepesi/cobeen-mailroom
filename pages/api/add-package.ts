@@ -22,7 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
             .insertOne(package_data)
         ).insertedId
 
-        // get inserted object back using id
         const inserted_object: Package = {
             _id: inserted_id,
             ...package_data
@@ -33,6 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
         res.json(inserted_object)
   } catch (e) {
       console.error(e);
+      res.status(500)
   }
 };
 
