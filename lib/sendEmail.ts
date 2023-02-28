@@ -2,7 +2,7 @@ import { Package } from './types'
 import nodemailer from 'nodemailer'
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
-// const WILLIAM_EMAIL = "wesepesi@gmail.com"
+const WILLIAM_EMAIL = "wesepesi@gmail.com"
 const COBEEN_EMAIL = "cobeenmail@gmail.com"
 
 // TODO: refactor to this ? https://mjml.io/try-it-live
@@ -36,8 +36,8 @@ const sendEmail = async (pkg: Package) => {
     // console.log(pkg.Email)
 
     const mailOptions = {
-        from: DOMINIC_EMAIL,
-        to: pkg.Email,
+        from: COBEEN_EMAIL,
+        to: "grace.lindstrom@marquette.edu", //WILLIAM_EMAIL, //pkg.Email,
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
         replyTo: DOMINIC_EMAIL,
