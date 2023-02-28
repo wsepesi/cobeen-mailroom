@@ -36,7 +36,7 @@ const sendEmail = async (pkg: Package) => {
     // console.log(pkg.Email)
 
     const mailOptions = {
-        from: DOMINIC_EMAIL,
+        from: COBEEN_EMAIL,
         to: pkg.Email,
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
