@@ -5,6 +5,7 @@ import Popup from "@/components/Popup";
 import Retrieve from "@/components/Retrieve";
 // import styles from '@/styles/Home.module.css'
 import { useState } from "react";
+import useUser from "@/lib/useUser";
 
 const styles = {
     padding: "0.5em 1em",
@@ -15,8 +16,12 @@ const styles = {
 export default function Home() {
     const [openAdd, setOpenAdd] = useState(false)
     const [openRetrieve, setOpenRetrieve] = useState(false)
+
+    const { user } = useUser({ redirectTo: '/login' })
     
     return(
+        <>
+        {user?.isLoggedIn &&
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -59,6 +64,7 @@ export default function Home() {
                     <Button>Admin</Button>
                 </Link>
             </div> */}
-        </Box>
+        </Box>}
+        </>
     )
 }
