@@ -1,10 +1,12 @@
 import { Box, Button } from "@mui/material";
+// import styles from '@/styles/Home.module.css'
+import { useEffect, useState } from "react";
 
 import Add from "@/components/Add";
 import Popup from "@/components/Popup";
 import Retrieve from "@/components/Retrieve";
-// import styles from '@/styles/Home.module.css'
-import { useState } from "react";
+import { useRouter } from "next/router";
+import useUser from "@/lib/useUser";
 
 const styles = {
     padding: "0.5em 1em",
@@ -15,8 +17,21 @@ const styles = {
 export default function Home() {
     const [openAdd, setOpenAdd] = useState(false)
     const [openRetrieve, setOpenRetrieve] = useState(false)
+
+    const router = useRouter();
+
+    const { user } = useUser({ redirectTo: '/' })
+    // useEffect(() => {
+    //     if (!user || user?.isLoggedIn) {
+    //         router.push('/')
+    //     } 
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
+    
     
     return(
+        <>
+        {user?.isLoggedIn &&
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -59,6 +74,7 @@ export default function Home() {
                     <Button>Admin</Button>
                 </Link>
             </div> */}
-        </Box>
+        </Box>}
+        </>
     )
 }

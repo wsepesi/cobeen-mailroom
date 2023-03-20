@@ -10,7 +10,7 @@ type PackageNoIds = {
     Last: string,
     Email: string,
     provider: string,
-    studentId: number,
+    studentId: string,
 }
 
 type Data = {
@@ -41,17 +41,17 @@ type Package = {
     Email: string,
     packageId: number,
     provider: string,
-    studentId: number,
+    studentId: string,
 }
 
 type Student = {
     _id: ObjectId,
-    Age: number,
+    Age: string,
     Bed_Space: string,
     Rm_Type_Desc: string,
     Last_Name: string,
     First_Name: string,
-    University_ID: number,
+    University_ID: string,
     Default_Email: string,
 }
 
