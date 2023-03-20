@@ -64,4 +64,10 @@ type LogPackage = LogPackageNoId & {
     _id: ObjectId
 }
 
-export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage }
+type KeyPair = {
+    _id: ObjectId,
+    key: string,
+    pass: string
+}
+
+export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair }

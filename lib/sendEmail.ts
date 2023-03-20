@@ -2,7 +2,6 @@ import { Package } from './types'
 import nodemailer from 'nodemailer'
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
-// const WILLIAM_EMAIL = "wesepesi@gmail.com"
 const COBEEN_EMAIL = "cobeenmail@gmail.com"
 
 // TODO: refactor to this ? https://mjml.io/try-it-live
@@ -32,8 +31,6 @@ const sendEmail = async (pkg: Package) => {
             throw new Error("transporter verification failed");
         }
     });
-
-    // console.log(pkg.Email)
 
     const mailOptions = {
         from: COBEEN_EMAIL,
