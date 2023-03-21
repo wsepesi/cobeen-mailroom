@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Input } from "@mui/material";
+import { Button, CircularProgress, Input, Typography } from "@mui/material";
 
 import Login from "@/components/Login";
 import Popup from "@/components/Popup";
@@ -49,9 +49,13 @@ export default function Admin() {
         <>
             {isLoggedIn ? 
             <div className="flex flex-col items-center justify-center min-h-screen bg-slate-300">
-                <h1>Admin Dashboard</h1>
-                <Button onClick={() => setHomePassOpen(true)}>Reset Password for Home</Button>
-                <Button onClick={() => setAdminPassOpen(true)}>Reset Password for Admin</Button>
+                <h1 className="position absolute top-0 left-0 m-2">Admin Dash</h1>
+                <div>
+                    <Typography variant="body1" className="text-2xl">Reset Passwords:</Typography>
+                    <Button onClick={() => setHomePassOpen(true)}>Reset Password for Home</Button>
+                    <Button onClick={() => setAdminPassOpen(true)}>Reset Password for Admin</Button>
+                </div>
+                
                 <Popup 
                     open={homePassOpen} 
                     handleClose={() => setHomePassOpen(false)} 
