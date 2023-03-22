@@ -1,5 +1,6 @@
 import { Button, CircularProgress, Input, Typography } from "@mui/material";
 
+import Head from "next/head";
 import Login from "@/components/Login";
 import Popup from "@/components/Popup";
 import { useState } from "react";
@@ -47,6 +48,9 @@ export default function Admin() {
 
     return(
         <>
+            <Head>
+                <title>Cobeen Admin Dash</title>
+            </Head>
             {isLoggedIn ? 
             <div className="flex flex-col items-center justify-center min-h-screen bg-slate-300">
                 <h1 className="position absolute top-0 left-0 m-2">Admin Dash</h1>

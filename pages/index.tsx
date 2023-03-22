@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 
 import Add from "@/components/Add";
+import Head from "next/head";
 import Login from "@/components/Login";
 import Popup from "@/components/Popup";
 import Retrieve from "@/components/Retrieve";
@@ -20,6 +21,9 @@ export default function Home() {
     
     return(
         <>
+        <Head>
+            <title>Cobeen Mailroom</title>
+        </Head>
         {isLoggedIn ?
             <Box sx={{
                 display: 'flex',
