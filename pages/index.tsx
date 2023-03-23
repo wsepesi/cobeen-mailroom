@@ -17,7 +17,7 @@ const KEY = 'cobeen-home'
 export default function Home() {
     const [openAdd, setOpenAdd] = useState<boolean>(false)
     const [openRetrieve, setOpenRetrieve] = useState<boolean>(false)
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false || process.env.NODE_ENV === 'development')
     
     return(
         <>
