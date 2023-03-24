@@ -40,7 +40,8 @@ const columns: React.ReactElement<HeaderProps> =
         <th className="w-1/5 p-2">Package ID</th>
     </>
 
-const LoggedTable = () => {
+const TableTest = () => {
+
     const getPackages = async () => {
         const res = await fetch('/api/get-logged-packages')
         const packages: LogPackage[] = (await res.json()).records
@@ -53,14 +54,6 @@ const LoggedTable = () => {
                 provider: p.provider,
                 retrievedTime: objectIdToDate(p._id),
                 ingestedTime: UTCToString(p.ingestedTime)
-            }
-        }).sort((a, b) => {
-            if (a.retrievedTime < b.retrievedTime) {
-                return 1
-            } else if (a.retrievedTime > b.retrievedTime) {
-                return -1
-            } else {
-                return 0
             }
         })
 
@@ -88,4 +81,4 @@ const LoggedTable = () => {
     )
 }
 
-export default LoggedTable
+export default TableTest
