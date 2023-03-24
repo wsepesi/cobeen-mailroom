@@ -1,9 +1,12 @@
-import { Button, CircularProgress, IconButton, Input, Typography } from "@mui/material";
-import { ExpandLess, ExpandMore, Refresh } from "@mui/icons-material";
+import { Button, CircularProgress, IconButton, Input, Skeleton, Typography } from "@mui/material";
 import { LogPackage, Package } from "@/lib/types";
 import { useEffect, useState } from "react";
 
+// import { ExpandLess, ExpandMore, Refresh } from "@mui/icons-material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import { ObjectId } from "mongodb";
+import Refresh from "@mui/icons-material/Refresh";
 
 type DashboardLogged = {
     packageId: number,
@@ -30,12 +33,14 @@ const UTCToString = (utc: Date) => {
 const LoggedTable = () => {
     const [loggedPackages, setLoggedPackages] = useState<DashboardLogged[]>([])
     const [expandPackages, setExpandPackages] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         getPackages()
     }, [])
     
     const getPackages = async () => {
+        setLoading(true)
         const res = await fetch('/api/get-logged-packages')
         const packages: LogPackage[] = (await res.json()).records
         const logged: DashboardLogged[] = packages.map((p) => {
@@ -50,13 +55,14 @@ const LoggedTable = () => {
             }
         })
         setLoggedPackages(logged)
+        setLoading(false)
     }
     return (
         <>
         <div className="flex flex-col max-w-fit max-h-[50vh] items-start justify-start text-left mx-2 px-2 transition ease-out duration-500">
             <div className="flex flex-row justify-between min-w-full">
                 <div className="flex flex-row">
-                <Typography variant="subtitle1">Packages pending pickup:</Typography>
+                <Typography variant="subtitle1">Logged Retrieved Packages:</Typography>
                 <IconButton onClick={getPackages} className="-mt-1">
                     <Refresh />
                 </IconButton>
@@ -78,19 +84,23 @@ const LoggedTable = () => {
                     <th className="w-1/5 p-2">Package ID</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {loggedPackages.map((pkg, i) => (
-                    <tr key={i} className="bg-stone-300 outline outline-1">
-                        <td className="p-2">{pkg.name}</td>
-                        <td className="p-2">{pkg.email}</td>
-                        <td className="p-2">{pkg.studentId}</td>
-                        <td className="p-2">{pkg.provider}</td>
-                        <td className="p-2">{pkg.ingestedTime}</td>
-                        <td className="p-2">{pkg.retrievedTime}</td>
-                        <td className="p-2">{pkg.packageId}</td>
-                    </tr>
-                    ))}
-                </tbody>
+                {!loading ? 
+                    <tbody>
+                        {loggedPackages.map((pkg, i) => (
+                        <tr key={i} className="bg-stone-300 outline outline-1">
+                            <td className="p-2">{pkg.name}</td>
+                            <td className="p-2">{pkg.email}</td>
+                            <td className="p-2">{pkg.studentId}</td>
+                            <td className="p-2">{pkg.provider}</td>
+                            <td className="p-2">{pkg.ingestedTime}</td>
+                            <td className="p-2">{pkg.retrievedTime}</td>
+                            <td className="p-2">{pkg.packageId}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    :
+                    <Skeleton variant="rectangular" width="80vw" height="45vh" animation="wave" />
+                }
             </table>
             </div>
         </div>

@@ -46,7 +46,7 @@ export default function Admin() {
                         {/* <Typography variant="subtitle1">Import Roster</Typography>
                         <Button className="text-left" onClick={() => setRosterOpen(true)}>Import Roster</Button> */}
                     </div>
-                    <div className="relative min-w-[80vw]">
+                    <div className="min-w-[80vw] mb-[8vh]">
                         <PackagesTable />
                         <LoggedTable />
                     </div>
