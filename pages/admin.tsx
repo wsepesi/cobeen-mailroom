@@ -6,7 +6,6 @@ import LoggedTable from "@/components/LoggedTable";
 import Login from "@/components/Login";
 import PackagesTable from "@/components/PackagesTable";
 import Popup from "@/components/Popup";
-import TableTest from "@/components/PkgTableTest";
 import { useState } from "react";
 
 export default function Admin() {
