@@ -83,6 +83,7 @@ const LoggedTable = () => {
                         <td className="p-2">{pkg.packageId}</td>
                     </>
                 }
+                title="Retrieved Packages"
             />
         </>
     )

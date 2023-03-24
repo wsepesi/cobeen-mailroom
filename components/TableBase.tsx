@@ -13,6 +13,7 @@ interface TableProps<T> {
     fetcher: () => Promise<T[]>;
     columns: React.ReactElement<HeaderProps>;
     dataToRow: (data: T) => React.ReactElement<RowProps>;
+    title: string
 }
 
 interface HeaderProps extends React.HTMLAttributes<HTMLTableCellElement> { 
@@ -46,7 +47,7 @@ function BaseTable<T>(props: TableProps<T>) {
         <div className="flex flex-col max-w-fit items-start justify-start text-left mx-2 px-2 transition ease-out duration-500">
             <div className="flex flex-row justify-between min-w-full">
                 <div className="flex flex-row">
-                <Typography variant="subtitle1">Packages Pending Pickup:</Typography>
+                <Typography variant="subtitle1">{props.title}</Typography>
                 <IconButton onClick={fetchData} className="-mt-1">
                     <Refresh />
                 </IconButton>
