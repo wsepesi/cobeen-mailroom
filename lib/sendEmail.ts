@@ -42,6 +42,12 @@ const sendEmail = async (pkg: Package) => {
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
         replyTo: DOMINIC_EMAIL,
+        dsn: {
+            id: '53201',
+            return: 'headers',
+            notify: ['failure', 'delay'],
+            recipient: DOMINIC_EMAIL
+        }
     }
 
     const res = await transporter.sendMail(mailOptions) //, (error, info) => {
@@ -53,6 +59,10 @@ const sendEmail = async (pkg: Package) => {
     if (res.rejected.length > 0) {
         throw new Error("transporter sendMail failed");
     }
+
+    // if (res.accepted.length === 0) {
+    //     throw new Error("transporter sendMail failed");
+    // }
 }
 
 export default sendEmail

@@ -27,11 +27,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
             ...package_data
         }
 
-        sendEmail(inserted_object)
+        await sendEmail(inserted_object)
 
         res.json(inserted_object)
   } catch (e) {
       console.error(e);
+      console.log(e)
       res.status(500)
   }
 };
