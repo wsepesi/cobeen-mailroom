@@ -1,12 +1,22 @@
 import { Button, CircularProgress, Input, Typography } from "@mui/material";
-import { resetPass, uploadFile } from "@/lib/adminUtils";
+import { read, utils } from "xlsx";
 
 import Head from "next/head";
 import LoggedTable from "@/components/LoggedTable";
 import Login from "@/components/Login";
 import PackagesTable from "@/components/PackagesTable";
 import Popup from "@/components/Popup";
+import { SafeRoster } from "@/lib/types";
+import { jsonHasDesired } from "@/lib/utility";
+import { resetPass } from "@/lib/adminUtils";
 import { useState } from "react";
+
+const desiredColumns = [
+    "Last_Name",
+    "First_Name",
+    "University_ID",
+    "Default_Email"
+]
 
 export default function Admin() {
     const COBEEN_HOME = 'cobeen-home'
@@ -21,12 +31,55 @@ export default function Admin() {
     const [isLoading, setIsLoading] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false || process.env.NODE_ENV === 'development')
     const [rosterOpen, setRosterOpen] = useState(false)
-    const [file, setFile] = useState<File | null>(null)
+    const [roster, setRoster] = useState<SafeRoster[] | null>(null)
 
-    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFile(e.target.files[0])
+    const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            if (e.target.files) {
+                // parse excel file to json using xlsx
+                const data = await e.target.files[0].arrayBuffer()
+                const workbook = read(data, {type: 'buffer'})
+
+                const sheet = workbook.Sheets[workbook.SheetNames[0]]
+                const sheetJson: Record<string, any>[] = utils.sheet_to_json(sheet)
+                
+                sheetJson.every((row) => {
+                    if (!jsonHasDesired(row, desiredColumns)) {
+                        throw new Error('Invalid roster')
+                    }
+                })
+                
+                const loadedRoster: SafeRoster[] = sheetJson.map((row) => {
+                    return {
+                        Last_Name: row.Last_Name,
+                        First_Name: row.First_Name,
+                        University_ID: row.University_ID,
+                        Default_Email: row.Default_Email
+                    }
+                })
+
+                setRoster(loadedRoster)
+            }
+        } catch (err) {
+            alert('Roster is missing desired columns')
         }
+    }
+
+    const uploadFile = async () => {
+        if (!roster) {
+            alert('No roster to upload')
+            return
+        }
+        // send roster over to upload-roster
+        const res = await fetch('/api/upload-roster', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                roster: roster
+            })
+        })
     }
 
     return(
@@ -43,8 +96,8 @@ export default function Admin() {
                         <Button className="text-left" onClick={() => setHomePassOpen(true)}>Home</Button>
                         <Button className="text-left" onClick={() => setAdminPassOpen(true)}>Admin</Button>
                         <hr />
-                        {/* <Typography variant="subtitle1">Import Roster</Typography>
-                        <Button className="text-left" onClick={() => setRosterOpen(true)}>Import Roster</Button> */}
+                        <Typography variant="subtitle1">Import Roster</Typography>
+                        <Button className="text-left" onClick={() => setRosterOpen(true)}>Import Roster</Button>
                     </div>
                     <div className="min-w-[80vw] mb-[8vh]">
                         <PackagesTable />
@@ -94,7 +147,7 @@ export default function Admin() {
                             <CircularProgress /> :
                             <div className="flex flex-row">
                                 <input type="file" accept=".xlsx" onChange={handleFile}/>
-                                <button disabled={!file} onClick={uploadFile}>Upload</button>
+                                <button disabled={!roster} onClick={uploadFile}>Upload</button>
                             </div>
                         }
                     </div>

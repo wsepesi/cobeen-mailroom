@@ -44,15 +44,29 @@ type Package = {
     studentId: string,
 }
 
-type Student = {
-    _id: ObjectId,
-    Age: string,
-    Bed_Space: string,
-    Rm_Type_Desc: string,
+type SafeRoster = {
     Last_Name: string,
     First_Name: string,
     University_ID: string,
     Default_Email: string,
+}
+
+type AmbigiousRoster = SafeRoster & {
+    [key: string]: unknown,
+}
+
+type Roster = SafeRoster & {
+    Age: string,
+    Bed_Space: string,
+    Rm_Type_Desc: string,
+}
+
+type Student = SafeRoster & {
+    _id: ObjectId,
+}
+
+type FullStudent = Roster & {
+    _id: ObjectId,
 }
 
 type LogPackageNoId = Omit<Package, "_id"> & {
@@ -70,4 +84,4 @@ type KeyPair = {
     pass: string
 }
 
-export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair }
+export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }

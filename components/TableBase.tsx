@@ -1,13 +1,10 @@
-import { Button, CircularProgress, IconButton, Input, Skeleton, Typography } from "@mui/material";
+import { Button, IconButton, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { utils, writeFile } from "xlsx";
 
-// import { ExpandLess, ExpandMore, Refresh } from "@mui/icons-material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { ObjectId } from "mongodb";
 import Refresh from "@mui/icons-material/Refresh";
-
-// TODO: use this one as the template
 
 interface TableProps<T> {
     fetcher: () => Promise<T[]>;
@@ -34,6 +31,19 @@ function BaseTable<T>(props: TableProps<T>) {
         setLoading(false)
     }
 
+    const downloadData = () => {
+        // console.log("download data")
+        if (data.length === 0) {
+            alert("No data to download, or the data is still loading")
+        }
+
+        const wb = utils.book_new()
+        const ws = utils.json_to_sheet(data)
+
+        utils.book_append_sheet(wb, ws, "Sheet1")
+        writeFile(wb, "data.xlsx")
+    }
+
     useEffect(() => {
         setLoading(true)
         fetcher().then((data) => {
@@ -51,6 +61,7 @@ function BaseTable<T>(props: TableProps<T>) {
                 <IconButton onClick={fetchData} className="-mt-1">
                     <Refresh />
                 </IconButton>
+                <Button onClick={downloadData}>Download as XLSX</Button>
                 </div>
                 <IconButton onClick={() => setExpand(!expand)}>
                     {expand ? <ExpandLess /> : <ExpandMore />}
@@ -76,7 +87,6 @@ function BaseTable<T>(props: TableProps<T>) {
             </table>
             </div>
         </div>
-        {/* {!expandPackages && <div className="absolute bottom-0 left-0 right-0 h-[10vh] bg-gradient-to-t from-gray-400 to-transparent"></div>} */}
         </>
     )
 }

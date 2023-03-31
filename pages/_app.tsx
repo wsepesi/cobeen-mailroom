@@ -9,15 +9,6 @@ const theme = createTheme({
     // fontFamily: '"Open Sans", "Helvetica", "Arial", sans-serif',
     fontFamily: '"Tenor Sans", sans-serif',
   },
-  // setbackground color of whole app to brown
-  // palette: {
-  //   primary: {
-  //     main: '#8B4513',
-  //   },
-  //   secondary: {
-  //     main: '#8B4513',
-  //   },
-  // }
 });
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -25,49 +25,6 @@ const resetPass = async (passVal: string, setPassOpen: (arg0: boolean) => void, 
     }
 }
 
-const uploadFile = async () => {
-    alert('not implemented')
-    throw new Error('not implemented')
-    // if (file) {
-        // setIsLoading(true)
-
-        // // convert file to json. file is expected to be an xlsx file
-        // const reader = new FileReader()
-        // reader.onload = async (e) => {
-        //     if (file) {
-        //         const wb = XLSX.read(file, {type: 'file'})
-        //         const wsname = wb.SheetNames[0]
-        //         const ws = wb.Sheets[wsname]
-        //         const json = XLSX.utils.sheet_to_json(ws, {header: 1})
-        //         console.log(json)
-        //         return json
-        //     }
-        // }
-        
-        
-
-        // const fileJson = await reader.onload("")
-
-        // const fileJson = await reader.onload()
-
-        // console.log('fj', fileJson)            
 
 
-    //     const res = await fetch('/api/upload-roster', {
-    //         method: 'POST',
-    //         body: file
-    //     })
-    //     console.log('res.status', res.status)
-    //     setIsLoading(false)
-    //     setRosterOpen(false)
-    //     if (res.status === 200) {
-    //         alert('Roster uploaded successfully')
-    //         console.log(await res.json())
-    //     } else {
-    //         console.log(await res.json())
-    //         alert('Something went wrong')
-    //     }
-    // }
-}
-
-export { resetPass, uploadFile }
+export { resetPass }

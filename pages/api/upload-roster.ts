@@ -1,40 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { SafeRoster } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { getCollection } from '@/lib/getCollection';
 
-// import xlsx from 'xlsx'
-
-const parse_and_clean_file = (file) => {
-    // Parse the file and clean it up
-    // Return the cleaned file
-
-    
-}
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    throw new Error("Not implemented yet")
-    // const body = req.body
-    // // body was sent as FormData, with a property 'file'. read and process accordingly:
-    // const file = body.file
+    // get roster from the body.roster field
+    const roster = req.body.roster as SafeRoster[]
 
-    // const fileBuffer = file.data
-    
+    // get the collection
+    const collection = getCollection('cobeen')
 
+    // replace the current roster with the new roster by destroying all old records in the collection and inserting the new records
+    await collection.deleteMany({})
+    await collection.insertMany(roster)
 
-
-    // const workbook = xlsx.read(fileBuffer, { type: 'buffer' });
-
-    // // Get the first sheet in the workbook
-    // const sheetName = workbook.SheetNames[0];
-    // const sheet = workbook.Sheets[sheetName];
-
-    // // Convert the sheet data to JSON
-    // const data = xlsx.utils.sheet_to_json(sheet);
-
-    // res.status(200).json({ data })
-
+    res.status(200).json({ message: 'Roster uploaded successfully' })
   } catch (e) {
       console.error(e);
       res.status(500)

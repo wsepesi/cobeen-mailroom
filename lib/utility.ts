@@ -8,4 +8,8 @@ function handleErrors<A extends any[]>(p: (...args: A) => Promise<void>): (...ar
     }
 }
 
-export { handleErrors }
+const jsonHasDesired = (json: Record<string, any>, desiredColumns: string[]) => {
+  return desiredColumns.every(col => json.hasOwnProperty(col))
+}
+
+export { handleErrors, jsonHasDesired }
