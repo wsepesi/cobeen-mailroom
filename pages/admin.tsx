@@ -142,6 +142,8 @@ export default function Admin() {
                         <div className="flex flex-col justify-start items-start mb-[20vh]">
                             <p>Upload an .xlsx file to replace the current Cobeen roster</p>
                             <p>NOTE: Row 1 MUST be the columns, and rows 2 through n are data entries. Please trim related details before uploading.</p>
+                            <p>Expected columns (must match exactly, and all additional columns are automatically removed by the system):</p>
+                            <p>{ desiredColumns.toString() }</p>
                         </div>
                         {isLoading ? 
                             <CircularProgress /> :
