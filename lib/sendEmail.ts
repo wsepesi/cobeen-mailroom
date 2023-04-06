@@ -9,7 +9,7 @@ const getEmailContent = (pkg: Package): string => {
     return (
     `Hello ${pkg.First},
 
-This email is to notify you that you have a package with ID #${pkg.packageId} delivered by ${pkg.provider} to pick up in the Cobeen mailroom in the first floor lobby. The mailroom is open on weekdays from 11a-3p and 5p-7p, on Saturdays 11a-3p, and on Sundays 5p-7p. Please let the front desk know if you have any questions!
+This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the Cobeen mailroom in the first floor lobby. The mailroom is open on weekdays from 11a-3p and 5p-7p, on Saturdays 11a-3p, and on Sundays 5p-7p. Be prepared to provide your student ID to be able to pick up your pacakge. Please let the front desk know if you have any questions!
 
 Best,
 Cobeen Hall Desk Staff`)
