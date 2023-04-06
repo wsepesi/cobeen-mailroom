@@ -1,6 +1,13 @@
 import nodemailer from 'nodemailer'
 
-const sendEmailWithContent = async (toEmail: string, content: string, adminEmail: string, fromEmail: string, fromPass: string | undefined) => {
+const sendEmailWithContent = async (
+    toEmail: string, 
+    content: string, 
+    adminEmail: string, 
+    fromEmail: string, 
+    fromPass: string | undefined,
+    subject: string
+) => {
     if (fromPass === undefined) {
         throw new Error("COBEEN_GMAIL_PASS not set")
     }
@@ -22,7 +29,7 @@ const sendEmailWithContent = async (toEmail: string, content: string, adminEmail
     const mailOptions = {
         from: fromEmail,
         to: toEmail,
-        subject: "Alert - Package with Out-of-System Name Delivered",
+        subject: subject,
         text: content,
         replyTo: adminEmail,
         dsn: {

@@ -98,6 +98,13 @@ export default function Admin() {
                         <hr />
                         <Typography variant="subtitle1">Import Roster</Typography>
                         <Button className="text-left" onClick={() => setRosterOpen(true)}>Import Roster</Button>
+                        {/* <Button onClick={async () => {
+                            // hit test-email endpoint with a GET request
+                            const res = await fetch('/api/reminder-cron', {
+                                method: 'GET'
+                            })
+                            console.log(await res.json())
+                        }}>Test</Button> */}
                     </div>
                     <div className="min-w-[80vw] mb-[8vh]">
                         <PackagesTable />

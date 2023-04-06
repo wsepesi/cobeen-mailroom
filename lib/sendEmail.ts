@@ -25,12 +25,7 @@ const sendEmail = async (pkg: Package) => {
         }
       });
 
-    const verified = await transporter.verify() //function (error, success) {
-    //     if (error) {
-    //         console.log(error);
-    //         throw new Error("transporter verification failed");
-    //     }
-    // });
+    const verified = await transporter.verify()
 
     if (!verified) {
         throw new Error("transporter verification failed");
@@ -50,19 +45,10 @@ const sendEmail = async (pkg: Package) => {
         }
     }
 
-    const res = await transporter.sendMail(mailOptions) //, (error, info) => {
-    //     if (error) {
-    //         console.log(error);
-    //         throw new Error("transporter sendMail failed");
-    //     } 
-    // });
+    const res = await transporter.sendMail(mailOptions) 
     if (res.rejected.length > 0) {
         throw new Error("transporter sendMail failed");
     }
-
-    // if (res.accepted.length === 0) {
-    //     throw new Error("transporter sendMail failed");
-    // }
 }
 
 export default sendEmail

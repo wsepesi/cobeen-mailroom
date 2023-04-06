@@ -17,7 +17,8 @@ const reportMissingName = async (name: string): Promise<boolean> => {
             getEmailContent(name),
             DOMINIC_EMAIL,
             COBEEN_EMAIL,
-            process.env.COBEEN_GMAIL_PASS
+            process.env.COBEEN_GMAIL_PASS,
+            "Alert - Package with Out-of-System Name Delivered"
         )
         return true
     } catch (err) {
