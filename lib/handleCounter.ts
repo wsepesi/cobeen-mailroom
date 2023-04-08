@@ -1,10 +1,37 @@
-import { Counter } from "./types"
+import { Counter, Package } from "./types"
+
+import { ObjectId } from "mongodb"
 import { getCollection } from "./getCollection"
 
 const COUNTERS_COLLECTION = 'counters'
 
+type QueueItem = {
+    _id: ObjectId,
+    packageNumber: number,
+    timestamp: Date,
+}
+
+const releaseNumber = async (pkg: Package, hall: string): Promise<boolean> => {
+    const hallCounter = getCollection(`${hall}_queue`)
+    const { packageId } = pkg
+    const res = await hallCounter.insertOne({ packageNumber: packageId, timestamp: new Date() })
+    return res.acknowledged
+}
+
+
+const pollFromQueue = async (hall: string): Promise<number> => {
+    const hallCounter = getCollection(`${hall}_queue`)
+    const polled = (await hallCounter.findOneAndDelete({}, { sort: { timestamp: 1 } }))
+    if (polled.value === null) {
+        throw new Error("No items in queue, every package number is taken. If this is a mistake, alert the facilities manager") //TODO: send email here?
+    }
+    const { packageNumber } = polled.value as QueueItem
+    return packageNumber
+}
+
+
 // USAGE PATTERN: get, use, increment
-const getAndIncrementCounter = async () => {
+const getAndIncrementCounter = async (): Promise<number> => {
     const counters = getCollection(COUNTERS_COLLECTION)
 
     // get the counter (by getting all the elements, which there are one of)
@@ -25,4 +52,4 @@ const getAndIncrementCounter = async () => {
     return val
 }
 
-export { getAndIncrementCounter }
+export { getAndIncrementCounter, pollFromQueue, releaseNumber }

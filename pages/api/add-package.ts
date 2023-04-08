@@ -1,17 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Package, PackageNoIds } from '@/lib/types';
+import { getAndIncrementCounter, pollFromQueue } from '@/lib/handleCounter';
 
-import { getAndIncrementCounter } from '@/lib/handleCounter';
 import { getCollection } from "@/lib/getCollection";
 import sendEmail from "@/lib/sendEmail";
+
+const HALL = 'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {
         const packageNoIds = req.body as PackageNoIds
         const collection = getCollection("Packages")
 
-        const packageId = await getAndIncrementCounter()
+        const packageId = await pollFromQueue(HALL) // getAndIncrementCounter()
 
         const package_data = {
             ...packageNoIds,

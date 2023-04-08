@@ -2,7 +2,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ObjectId } from "mongodb";
+import { Package } from '@/lib/types';
 import { getCollection } from "@/lib/getCollection";
+import { releaseNumber } from '@/lib/handleCounter';
+
+const HALL = 'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<boolean>) => {
   try {
@@ -11,12 +15,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<boolean>) => {
 
         // delete package and store deleted object
 
-        console.log(new ObjectId(_id))
-        const dbRes = await collection.deleteOne({ _id: new ObjectId(_id) })
+        // console.log(new ObjectId(_id))
+        const dbRes = await collection.findOneAndDelete({ _id: new ObjectId(_id) })
+        if (dbRes.ok !== 1) {
+            throw new Error("Error deleting package")
+        }
+        const pkg = dbRes.value as Package
+
+        const numberFreedSuccess = await releaseNumber(pkg, HALL)
+
+        if (!numberFreedSuccess) {
+            throw new Error("Error freeing number")
+        }
         
-        console.log('deleted')
+        // console.log('deleted')
         
-        res.json(dbRes.acknowledged)
+        res.json(numberFreedSuccess)
   } catch (e) {
       console.error(e);
   }
