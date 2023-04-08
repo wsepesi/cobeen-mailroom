@@ -41,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             )
         }
 
-        res.status(200).json(olderThanOneWeek)
+        res.status(200).json(true)
   } catch (e) {
       console.error(e);
       res.status(500)
