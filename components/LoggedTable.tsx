@@ -2,6 +2,7 @@ import { LogPackage, Package } from "@/lib/types"
 
 import { ObjectId } from "mongodb"
 import TableBase from "./TableBase"
+import { compareDateStrings } from "@/lib/adminUtils"
 
 const objectIdToDate = (_id: ObjectId) => {
     const timestamp = _id.toString().substring(0,8)
@@ -55,13 +56,7 @@ const LoggedTable = () => {
                 ingestedTime: UTCToString(p.ingestedTime)
             }
         }).sort((a, b) => {
-            if (a.retrievedTime < b.retrievedTime) {
-                return 1
-            } else if (a.retrievedTime > b.retrievedTime) {
-                return -1
-            } else {
-                return 0
-            }
+            return compareDateStrings(a.ingestedTime, b.ingestedTime)
         })
 
         return logged

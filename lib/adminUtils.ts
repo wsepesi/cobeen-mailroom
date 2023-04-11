@@ -25,6 +25,18 @@ const resetPass = async (passVal: string, setPassOpen: (arg0: boolean) => void, 
     }
 }
 
+const compareDateStrings = (a: string, b: string) => {
+    const aDate = new Date(a)
+    const bDate = new Date(b)
+    if (aDate < bDate) {
+        return 1
+    } else if (aDate > bDate) {
+        return -1
+    } else {
+        return 0
+    }
+}
 
 
-export { resetPass }
+
+export { resetPass, compareDateStrings }

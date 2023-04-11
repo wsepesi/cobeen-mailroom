@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb"
 import { Package } from "@/lib/types"
 import TableBase from "./TableBase"
+import { compareDateStrings } from "@/lib/adminUtils"
 
 const objectIdToDate = (_id: ObjectId) => {
     const timestamp = _id.toString().substring(0,8)
@@ -31,17 +32,7 @@ const columns: React.ReactElement<HeaderProps> =
         <th className="w-1/5 p-2">Package ID</th>
     </>
 
-const compareDateStrings = (a: string, b: string) => {
-    const aDate = new Date(a)
-    const bDate = new Date(b)
-    if (aDate < bDate) {
-        return 1
-    } else if (aDate > bDate) {
-        return -1
-    } else {
-        return 0
-    }
-}
+
 
 const PackagesTable = () => {
     const getPackages = async () => {
