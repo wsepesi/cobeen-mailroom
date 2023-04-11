@@ -31,7 +31,17 @@ const columns: React.ReactElement<HeaderProps> =
         <th className="w-1/5 p-2">Package ID</th>
     </>
 
-
+const compareDateStrings = (a: string, b: string) => {
+    const aDate = new Date(a)
+    const bDate = new Date(b)
+    if (aDate < bDate) {
+        return 1
+    } else if (aDate > bDate) {
+        return -1
+    } else {
+        return 0
+    }
+}
 
 const PackagesTable = () => {
     const getPackages = async () => {
@@ -47,13 +57,7 @@ const PackagesTable = () => {
                 ingestedTime: objectIdToDate(p._id)
             }
         }).sort((a, b) => {
-            if (a.ingestedTime < b.ingestedTime) {
-                return 1
-            } else if (a.ingestedTime > b.ingestedTime) {
-                return -1
-            } else {
-                return 0
-            }
+            return compareDateStrings(a.ingestedTime, b.ingestedTime)
         })
 
         return dashboardPackages
