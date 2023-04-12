@@ -57,11 +57,12 @@ function BaseTable<T>(props: TableProps<T>) {
         <div className="flex flex-col max-w-fit items-start justify-start text-left mx-2 px-2 transition ease-out duration-500">
             <div className="flex flex-row justify-between min-w-full">
                 <div className="flex flex-row">
-                <Typography variant="subtitle1">{props.title}</Typography>
+                <Typography variant="subtitle1">{props.title}: {!loading && `${data.length} total`}</Typography>
                 <IconButton onClick={fetchData} className="-mt-1">
                     <Refresh />
                 </IconButton>
                 <Button onClick={downloadData}>Download as XLSX</Button>
+                {/* {!loading && <Typography variant="subtitle2"></Typography>} */}
                 </div>
                 <IconButton onClick={() => setExpand(!expand)}>
                     {expand ? <ExpandLess /> : <ExpandMore />}

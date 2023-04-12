@@ -69,7 +69,7 @@ const PackagesTable = () => {
                         <td className="p-2">{pkg.packageId}</td>
                     </>
                 }
-                title="Ingested Packages:"
+                title="Ingested Packages"
             />
         </>
     )
