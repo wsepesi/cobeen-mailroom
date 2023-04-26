@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { Package } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getCollection } from '@/lib/getCollection';
+import { getCollectionAsync } from '@/lib/getCollection';
 import sendEmailWithContent from '@/lib/sendEmailWithContent';
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
@@ -11,7 +11,7 @@ const COBEEN_EMAIL = "cobeenmail@gmail.com"
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
         // get cobeen collection
-        const packagesCollection = getCollection('Packages')
+        const packagesCollection = await getCollectionAsync('Packages')
         const packages: Package[] = await packagesCollection.find({}).toArray() as Package[]
         const packagesWithDates = packages.map((pkg) => {
             return {

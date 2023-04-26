@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { SafeRoster } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getCollection } from '@/lib/getCollection';
+import { getCollectionAsync } from '@/lib/getCollection';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const roster = req.body.roster as SafeRoster[]
 
     // get the collection
-    const collection = getCollection('cobeen')
+    const collection = await getCollectionAsync('cobeen')
 
     // replace the current roster with the new roster by destroying all old records in the collection and inserting the new records
     await collection.deleteMany({})

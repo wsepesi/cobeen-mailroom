@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Package, PackageNoIds } from '@/lib/types';
 import { getAndIncrementCounter, pollFromQueue } from '@/lib/handleCounter';
 
-import { getCollection } from "@/lib/getCollection";
+import { getCollectionAsync } from "@/lib/getCollection";
 import sendEmail from "@/lib/sendEmail";
 
 const HALL = 'cobeen'
@@ -11,7 +11,7 @@ const HALL = 'cobeen'
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {
         const packageNoIds = req.body as PackageNoIds
-        const collection = getCollection("Packages")
+        const collection = await getCollectionAsync("Packages")
 
         const packageId = await pollFromQueue(HALL) // getAndIncrementCounter()
 

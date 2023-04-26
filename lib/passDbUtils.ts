@@ -1,11 +1,11 @@
 import { KeyPair } from "./types"
-import { getCollection } from "./getCollection"
+import { getCollectionAsync } from "./getCollection"
 
 const PASS_DB = "passwords"
 
 const getHashedPassFromDb = async (key: string): Promise<string> => {
     try {
-        const collection = getCollection(PASS_DB)
+        const collection = await getCollectionAsync(PASS_DB)
 
         // get pass from db using the key
         const res = await collection.findOne({ key: key }) as KeyPair
@@ -18,7 +18,7 @@ const getHashedPassFromDb = async (key: string): Promise<string> => {
 
 const setPassInDb = async (key: string, pass: string): Promise<boolean> => {
     // try {
-        const collection = getCollection(PASS_DB)
+        const collection = await getCollectionAsync(PASS_DB)
 
         // update if key is in DB, else insert
         const res = await collection.updateOne({ key: key }, { $set: { pass: pass } }, { upsert: true })

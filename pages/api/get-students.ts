@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { Student } from "@/lib/types";
-import { getCollection } from "@/lib/getCollection";
+import { getCollectionAsync } from "@/lib/getCollection";
 
 type Data = {
     records: Student[]
@@ -12,7 +12,7 @@ type Data = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-        const collection = getCollection('cobeen')
+        const collection = await getCollectionAsync('cobeen')
         const data: Student[] = (await collection
             .find({})
             .toArray()) as Student[];

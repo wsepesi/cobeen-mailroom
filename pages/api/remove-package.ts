@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ObjectId } from "mongodb";
 import { Package } from '@/lib/types';
-import { getCollection } from "@/lib/getCollection";
+import { getCollectionAsync } from "@/lib/getCollection";
 import { releaseNumber } from '@/lib/handleCounter';
 
 const HALL = 'cobeen'
@@ -11,7 +11,7 @@ const HALL = 'cobeen'
 const handler = async (req: NextApiRequest, res: NextApiResponse<boolean>) => {
   try {
         const _id = (req.body as string)
-        const collection = getCollection("Packages")
+        const collection = await getCollectionAsync("Packages")
 
         // delete package and store deleted object
 

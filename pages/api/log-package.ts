@@ -3,12 +3,12 @@ import { LogPackage, Package } from '@/lib/types';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ObjectId } from 'mongodb';
-import { getCollection } from "@/lib/getCollection";
+import { getCollectionAsync } from "@/lib/getCollection";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<LogPackage>) => {
   try {
         const pkg = req.body as Package
-        const collection = getCollection("PackageLog")
+        const collection = await getCollectionAsync("PackageLog")
 
         // seperate objectid so we generate a new timestamp of retrieval
         const { _id, ...log } = pkg
