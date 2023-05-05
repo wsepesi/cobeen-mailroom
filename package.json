@@ -6,11 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "next build && ava"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
+    "@clerk/nextjs": "^4.16.4",
+    "@emotion/react": "^11.10.8",
+    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
+    "@mantine/core": "^6.0.10",
+    "@mantine/hooks": "^6.0.10",
+    "@mantine/next": "^6.0.10",
     "@microsoft/microsoft-graph-client": "^3.0.5",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.5",
@@ -40,6 +46,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/nodemailer": "^6.4.7",
     "autoprefixer": "^10.4.13",
+    "ava": "^5.2.0",
     "eslint-config-prettier": "^8.6.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
