@@ -6,12 +6,12 @@ import { Package } from '@/lib/types';
 import { getCollectionAsync } from "@/lib/getCollection";
 import { releaseNumber } from '@/lib/handleCounter';
 
-const HALL = 'cobeen'
+const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<boolean>) => {
   try {
         const _id = (req.body as string)
-        const collection = await getCollectionAsync("Packages")
+        const collection = await getCollectionAsync(`${HALL}_packages`)
 
         // delete package and store deleted object
 

@@ -51,4 +51,5 @@ def create_hall_queue(hall: str, migration=False, make_db=False) -> bool:
 
 
 if __name__ == "__main__":
-    create_hall_queue('cobeen', migration=True)
+    # create_hall_queue('cobeen', migration=True)
+    create_hall_queue('summer')

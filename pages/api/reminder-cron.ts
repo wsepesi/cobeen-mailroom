@@ -6,12 +6,15 @@ import { getCollectionAsync } from '@/lib/getCollection';
 import sendEmailWithContent from '@/lib/sendEmailWithContent';
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
+const BELLA_EMAIL = "Isabella.Buelow@marquette.edu"
 const COBEEN_EMAIL = "cobeenmail@gmail.com"
+const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
+const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-        // get cobeen collection
-        const packagesCollection = await getCollectionAsync('Packages')
+        // get collection
+        const packagesCollection = await getCollectionAsync(`${HALL}_packages`)
         const packages: Package[] = await packagesCollection.find({}).toArray() as Package[]
         const packagesWithDates = packages.map((pkg) => {
             return {
@@ -28,15 +31,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // for each one of these packages, launch an email
         for (const pkg of olderThanOneWeek) {
             const { First, Email, date } = pkg
-            const content = `Hi ${First},\n\nWe noticed that you haven't picked up your package delivered on ${date.toLocaleDateString('en-US')} yet. Please come to the mailroom to pick it up. If you think this is an error, please come talk to the desk -- your package may not have been properly marked as retrieved.\n\nThanks,\nCobeen Staff`
+            const content = `Hi ${First},\n\nWe noticed that you haven't picked up your package delivered on ${date.toLocaleDateString('en-US')} yet. Please come to the mailroom to pick it up. If you think this is an error, please come talk to the desk -- your package may not have been properly marked as retrieved.\n\nThanks,\nStaff`
             const subject = "Reminder: You have a package waiting for you"
 
             await sendEmailWithContent(
                 Email, 
                 content, 
-                DOMINIC_EMAIL, 
-                COBEEN_EMAIL, 
-                process.env.COBEEN_GMAIL_PASS, 
+                BELLA_EMAIL, //DOMINIC_EMAIL, 
+                MARQUETTE_EMAIL, //COBEEN_EMAIL, 
+                process.env.MARQUETTE_GMAIL_PASS, //process.env.COBEEN_GMAIL_PASS, 
                 subject
             )
         }

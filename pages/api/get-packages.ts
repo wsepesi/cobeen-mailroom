@@ -10,9 +10,10 @@ type PackageData = {
 
 const POST = 'POST'
 const GET = 'GET'
+const HALL = 'summer' //'cobeen
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PackageData>) => {
-    const collection = await getCollectionAsync('Packages')
+    const collection = await getCollectionAsync(`${HALL}_packages`)
     if (req.method === POST) {
         const ID = req.body as number
         try {

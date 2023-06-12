@@ -6,12 +6,12 @@ import { getAndIncrementCounter, pollFromQueue } from '@/lib/handleCounter';
 import { getCollectionAsync } from "@/lib/getCollection";
 import sendEmail from "@/lib/sendEmail";
 
-const HALL = 'cobeen'
+const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {
         const packageNoIds = req.body as PackageNoIds
-        const collection = await getCollectionAsync("Packages")
+        const collection = await getCollectionAsync(`${HALL}_packages`)
 
         const packageId = await pollFromQueue(HALL) // getAndIncrementCounter()
 

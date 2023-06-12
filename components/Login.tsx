@@ -41,7 +41,7 @@ const Login = (props: Props): React.ReactElement => {
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-          <h1 className="text-2xl">Cobeen {props.admin && "Admin"} Code</h1>
+          <h1 className="text-2xl">Enter {props.admin && "Admin"} Code</h1>
           {isLoading ? <CircularProgress /> :
             <div>
               <input onChange={(e) => setInput(e.target.value)} value={input} className="border-1 border-gray-500 rounded-md p-1 bg-stone-200" />

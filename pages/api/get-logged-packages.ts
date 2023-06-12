@@ -9,7 +9,8 @@ type PackageData = {
 
 const POST = 'POST'
 const GET = 'GET'
-const LOG = "PackageLog"
+const HALL = 'summer' //'cobeen'
+const LOG = `${HALL}_package_log`
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PackageData>) => {
     const collection = await getCollectionAsync(LOG)

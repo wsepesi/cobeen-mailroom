@@ -13,7 +13,8 @@ const styles = {
     fontSize: "1.2em",
     margin: "0.5em"
 }
-const KEY = 'cobeen-home'
+const HALL = 'summer' //'cobeen'
+const KEY = `${HALL}-home`
 
 const getNumPackages = async (): Promise<number> => {
     const res = await fetch('/api/get-packages')
@@ -42,7 +43,7 @@ export default function Home() {
     return(
         <>
         <Head>
-            <title>Cobeen Mailroom</title>
+            <title>Marquette Mailroom</title>
         </Head>
         {isLoggedIn ?
             <Box sx={{
