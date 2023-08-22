@@ -1,6 +1,7 @@
 import { Button, CircularProgress, Input, Typography } from "@mui/material";
 import { read, utils } from "xlsx";
 
+import { HALL } from "@/lib/CONFIG";
 import Head from "next/head";
 import LoggedTable from "@/components/LoggedTable";
 import Login from "@/components/Login";
@@ -19,11 +20,11 @@ const desiredColumns = [
 ]
 
 export default function Admin() {
-    const HALL = 'summer' //'cobeen'
+    // const HALL = 'summer' //'cobeen'
     const PASS_HOME = `${HALL}-home`
     const PASS_ADMIN = `${HALL}-admin`
     // const KEY = 'cobeen-admin'
-    const COBEEN = 'cobeen'
+    // const COBEEN = 'cobeen'
     
     const [homePassOpen, setHomePassOpen] = useState(false)
     const [adminPassOpen, setAdminPassOpen] = useState(false)

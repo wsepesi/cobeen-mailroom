@@ -1,3 +1,4 @@
+import { HALL, REPLY_TO_EMAIL, SERVICE_EMAIL } from '@/lib/CONFIG';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { Package } from '@/lib/types';
@@ -5,11 +6,11 @@ import { Package } from '@/lib/types';
 import { getCollectionAsync } from '@/lib/getCollection';
 import sendEmailWithContent from '@/lib/sendEmailWithContent';
 
-const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
-const BELLA_EMAIL = "Isabella.Buelow@marquette.edu"
-const COBEEN_EMAIL = "cobeenmail@gmail.com"
-const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
-const HALL = 'summer' //'cobeen'
+// const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
+// const BELLA_EMAIL = "Isabella.Buelow@marquette.edu"
+// const COBEEN_EMAIL = "cobeenmail@gmail.com"
+// const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
+// const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -37,8 +38,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             await sendEmailWithContent(
                 Email, 
                 content, 
-                BELLA_EMAIL, //DOMINIC_EMAIL, 
-                MARQUETTE_EMAIL, //COBEEN_EMAIL, 
+                REPLY_TO_EMAIL, //DOMINIC_EMAIL, 
+                SERVICE_EMAIL, //COBEEN_EMAIL, 
                 process.env.MARQUETTE_GMAIL_PASS, //process.env.COBEEN_GMAIL_PASS, 
                 subject
             )

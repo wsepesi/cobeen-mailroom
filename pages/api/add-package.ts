@@ -3,10 +3,11 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Package, PackageNoIds } from '@/lib/types';
 import { getAndIncrementCounter, pollFromQueue } from '@/lib/handleCounter';
 
+import { HALL } from '@/lib/CONFIG';
 import { getCollectionAsync } from "@/lib/getCollection";
 import sendEmail from "@/lib/sendEmail";
 
-const HALL = 'summer' //'cobeen'
+// const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {

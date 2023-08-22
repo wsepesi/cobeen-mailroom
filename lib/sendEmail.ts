@@ -1,10 +1,12 @@
+import { REPLY_TO_EMAIL, SERVICE_EMAIL } from './CONFIG'
+
 import { Package } from './types'
 import nodemailer from 'nodemailer'
 
-const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
-const BELLA_EMAIL = "Isabella.Buelow@marquette.edu"
-const COBEEN_EMAIL = "cobeenmail@gmail.com"
-const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
+// const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
+// const BELLA_EMAIL = "Isabella.Buelow@marquette.edu"
+// const COBEEN_EMAIL = "cobeenmail@gmail.com"
+// const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
 
 // TODO: refactor to this ? https://mjml.io/try-it-live
 // const getEmailContent = (pkg: Package): string => {
@@ -32,7 +34,7 @@ const sendEmail = async (pkg: Package) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: MARQUETTE_EMAIL, //COBEEN_EMAIL
+          user: SERVICE_EMAIL, //COBEEN_EMAIL
           pass: process.env.MARQUETTE_GMAIL_PASS //process.env.COBEEN_GMAIL_PASS 
         }
       });
@@ -44,16 +46,16 @@ const sendEmail = async (pkg: Package) => {
     }
 
     const mailOptions = {
-        from: MARQUETTE_EMAIL, //COBEEN_EMAIL,
+        from: SERVICE_EMAIL, //COBEEN_EMAIL,
         to: pkg.Email,
         subject: "Package Available for Pickup",
         text: getEmailContent(pkg),
-        replyTo: BELLA_EMAIL, //DOMINIC_EMAIL,
+        replyTo: REPLY_TO_EMAIL, //DOMINIC_EMAIL,
         dsn: {
             id: '53201',
             return: 'headers',
             notify: ['failure', 'delay'],
-            recipient: BELLA_EMAIL, //DOMINIC_EMAIL
+            recipient: REPLY_TO_EMAIL, //DOMINIC_EMAIL
         }
     }
 

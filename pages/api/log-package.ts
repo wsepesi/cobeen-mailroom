@@ -2,10 +2,11 @@ import { LogPackage, Package } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { HALL } from '@/lib/CONFIG';
 import { ObjectId } from 'mongodb';
 import { getCollectionAsync } from "@/lib/getCollection";
 
-const HALL = 'summer' //'cobeen'
+// const HALL = 'summer' //'cobeen'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<LogPackage>) => {
   try {
