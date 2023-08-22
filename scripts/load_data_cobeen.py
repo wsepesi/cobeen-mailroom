@@ -15,8 +15,6 @@ def run():
     # drop na
     df = df.dropna()
 
-    # print(df.head())
-
     # load df to collection
     collection.insert_many(df.to_dict('records'))
 
