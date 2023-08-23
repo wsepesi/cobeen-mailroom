@@ -23,7 +23,11 @@ const getEmailContent = (pkg: Package): string => {
     return (
     `Hello ${pkg.First},
 
-This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the mailroom. Be prepared to provide your student ID to be able to pick up your package. Please let the front desk know if you have any questions!
+This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the mailroom. Be prepared to provide your student ID to be able to pick up your package. 
+
+The mailroom is open Monday - Friday, 11am-3pm and 5-7pm, Saturday 11am-3pm, and Sunday 5-7pm.
+
+Please let the front desk know if you have any questions!
 
 Best,
 Desk Staff`)
