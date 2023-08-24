@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { MARQUETTE_EMAIL } from '@/lib/CONFIG';
 import { Package } from '@/lib/types';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { getCollectionAsync } from '@/lib/getCollection';
@@ -35,8 +36,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 Email, 
                 content, 
                 DOMINIC_EMAIL, 
-                COBEEN_EMAIL, 
-                process.env.COBEEN_GMAIL_PASS, 
+                MARQUETTE_EMAIL, 
+                process.env.MARQUETTE_GMAIL_PASS, 
                 subject
             )
         }

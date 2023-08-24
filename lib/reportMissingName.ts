@@ -1,6 +1,8 @@
+import { MARQUETTE_EMAIL } from "./CONFIG"
 import sendEmailWithContent from "./sendEmailWithContent"
 
 const DOMINIC_EMAIL = "Dominic.barry@marquette.edu"
+
 const COBEEN_EMAIL = "cobeenmail@gmail.com"
 
 const getEmailContent = (name: string): string => {
@@ -16,8 +18,8 @@ const reportMissingName = async (name: string): Promise<boolean> => {
             DOMINIC_EMAIL,
             getEmailContent(name),
             DOMINIC_EMAIL,
-            COBEEN_EMAIL,
-            process.env.COBEEN_GMAIL_PASS,
+            MARQUETTE_EMAIL,
+            process.env.MARQUETTE_GMAIL_PASS,
             "Alert - Package with Out-of-System Name Delivered"
         )
         return true

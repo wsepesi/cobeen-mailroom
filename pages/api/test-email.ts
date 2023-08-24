@@ -5,8 +5,8 @@ import imap from 'imap';
 
 async function getEmails(): Promise<void> {
     const imapConfig: imap.Config = {
-        user: process.env.COBEEN_EMAIL as string,
-        password: process.env.COBEEN_GMAIL_PASS as string,
+        user: process.env.MARQUETTE_EMAIL as string,
+        password: process.env.MARQUETTE_GMAIL_PASS as string,
         host: 'imap.gmail.com',
         port: 993,
         tls: true,

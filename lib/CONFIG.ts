@@ -1,0 +1,1 @@
+export const MARQUETTE_EMAIL = "marquettemailer@gmail.com"
