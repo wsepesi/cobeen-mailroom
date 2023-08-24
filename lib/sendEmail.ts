@@ -23,7 +23,7 @@ const getEmailContent = (pkg: Package): string => {
     return (
     `Hello ${pkg.First},
 
-This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the mailroom. Be prepared to provide your student ID to be able to pick up your package. 
+This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the Mashuda Hall mailroom. Be prepared to provide your student ID to be able to pick up your package. 
 
 The mailroom is open Monday - Friday, 11am-3pm and 5-7pm, Saturday 11am-3pm, and Sunday 5-7pm.
 
