@@ -1,6 +1,12 @@
 {
-    "crons": [{
-      "path": "/api/reminder-cron",
-      "schedule": "0 9 * * 1"
-    }]
+    "crons": [
+      {
+        "path": "/api/reminder-cron",
+        "schedule": "0 9 * * 1"
+      },
+      {
+      "path": "/api/reminder-cron-mashuda",
+      "schedule": "0 10 * * 1"
+      }
+  ]
 }
