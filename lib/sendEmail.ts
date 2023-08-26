@@ -1,4 +1,4 @@
-import { REPLY_TO_EMAIL, SERVICE_EMAIL } from './CONFIG'
+import { HALL, REPLY_TO_EMAIL, SERVICE_EMAIL } from './CONFIG'
 
 import { Package } from './types'
 import nodemailer from 'nodemailer'
@@ -19,13 +19,16 @@ import nodemailer from 'nodemailer'
 // Desk Staff`)
 // }
 
+const hall = HALL[0].toUpperCase() + HALL.slice(1)
+const HOURS = "Monday - Friday, 11am-3pm and 5-7pm, Saturday 11am-3pm, and Sunday 5-7pm"
+
 const getEmailContent = (pkg: Package): string => {
     return (
     `Hello ${pkg.First},
 
-This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the Mashuda Hall mailroom. Be prepared to provide your student ID to be able to pick up your package. 
+This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the ${hall} Hall mailroom. Be prepared to provide your student ID to be able to pick up your package. 
 
-The mailroom is open Monday - Friday, 11am-3pm and 5-7pm, Saturday 11am-3pm, and Sunday 5-7pm.
+The mailroom is open ${HOURS}.
 
 Please let the front desk know if you have any questions!
 
