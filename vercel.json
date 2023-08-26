@@ -7,10 +7,6 @@
       {
         "path": "/api/reminder-cron-mashuda",
         "schedule": "0 10 * * 1"
-      },
-      {
-        "path": "/api/reminder-cron-carpenter",
-        "schedule": "0 11 * * 1"
       }
   ]
 }
