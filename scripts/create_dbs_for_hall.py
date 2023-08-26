@@ -13,12 +13,12 @@ def create_passwords_for_hall(HALL: str):
 
     pass_db.insert_one({
         'key': f'{HALL}-home',
-        'password': defaults['pass']
+        'pass': defaults['pass']
     })
 
     pass_db.insert_one({
         'key': f'{HALL}-admin',
-        'password': defaults['pass']
+        'pass': defaults['pass']
     })
 
 def create_dbs_for_hall(HALL: str):

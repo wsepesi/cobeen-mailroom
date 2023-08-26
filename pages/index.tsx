@@ -2,6 +2,7 @@ import { Box, Button, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import Add from "@/components/Add";
+import { HALL } from "@/lib/CONFIG";
 import Head from "next/head";
 import Login from "@/components/Login";
 import Popup from "@/components/Popup";
@@ -13,7 +14,7 @@ const styles = {
     fontSize: "1.2em",
     margin: "0.5em"
 }
-const HALL = 'summer' //'cobeen'
+// const HALL = 'summer' //'cobeen'
 const KEY = `${HALL}-home`
 
 const getNumPackages = async (): Promise<number> => {
