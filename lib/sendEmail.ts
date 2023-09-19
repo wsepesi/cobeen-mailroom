@@ -31,7 +31,10 @@ Best,
 Cobeen Hall Desk Staff`)
 }
 
-const sendEmail = async (pkg: Package) => {
+const sendEmail = async (
+    pkg: Package, 
+    contentFunction: (pkg: Package) => string = getEmailContent
+    ) => {
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -51,7 +54,7 @@ const sendEmail = async (pkg: Package) => {
         from: MARQUETTE_EMAIL,
         to: pkg.Email,
         subject: "Package Available for Pickup",
-        text: getEmailContent(pkg),
+        text: contentFunction(pkg),
         replyTo: DOMINIC_EMAIL,
         dsn: {
             id: '53201',
