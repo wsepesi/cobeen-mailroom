@@ -13,6 +13,22 @@ const Add = () => {
     const [loaded, setLoaded] = useState(false)
     const [noName, setNoName] = useState(false)
 
+    const failPackage = async (pkg: Package) => {
+        // cleanup
+        setAddingPackage(false)
+        setAddedPackage(pkg)
+        setRecord(null)
+
+        // send off to DB
+        const res = await fetch('/api/fail-package', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pkg)
+        })
+    }
+
     const addPackage = async (obj: Student | null) => {
         if (obj === null || carrier === null) {
             alert('Please select a student')
@@ -37,18 +53,23 @@ const Add = () => {
                 body: JSON.stringify(pkg)
             })
 
-            if (res.status === 500) {
-                console.log('failed to send package, or email')
-                console.log('failed pkg', pkg)
-            }
-    
-            const added_package: Package = await res.json()
-    
-            console.log('added pkg', added_package)
+            if (res.status !== 200) {
+                if (res.status === 501) {
+                    console.error('Unforseen error. Please contact Dominic Barry')
+                    console.error(await res.text())
+                } else {
+                    console.log("entering failure recovery mode")
+                    failPackage(await res.json())
+                }
+            } else {
+                const added_package: Package = await res.json()
 
-            setAddingPackage(false)
-            setAddedPackage(added_package)
-            setRecord(null)
+                console.log('added pkg', added_package)
+
+                setAddingPackage(false)
+                setAddedPackage(added_package)
+                setRecord(null)
+            }
         }
     }
 
