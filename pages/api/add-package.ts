@@ -8,6 +8,8 @@ import sendEmail from "@/lib/sendEmail";
 
 const HALL = 'cobeen'
 
+var PACKAGE_GLOBAL: Package
+
 const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
   try {
         const packageNoIds = req.body as PackageNoIds
@@ -29,13 +31,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
             ...package_data
         }
 
+        PACKAGE_GLOBAL = inserted_object
+
         await sendEmail(inserted_object)
 
         res.json(inserted_object)
   } catch (e) {
       console.error(e);
       console.log(e)
-      res.status(500)
+      if (PACKAGE_GLOBAL) {
+        res.status(500).json(PACKAGE_GLOBAL)
+      } else {
+        res.status(501)
+      }
   }
 };
 
