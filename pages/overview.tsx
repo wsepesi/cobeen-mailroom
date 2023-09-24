@@ -13,10 +13,12 @@ const halls: Hall[] = [
     "carpenter"
 ]
 
-/* Desired Features:
- * # total packages, # packages per dorm
- * bar chart of packages per month, with a different color for each dorm. can toggle to weekly
+/** Desired Features:
+ * # total packages, # packages per dorm [DONE]
+ * bar chart of packages per month, with a different color for each dorm. can toggle to weekly [DONE]
  * average wait time to pick up package as a line graph over time, per dorm
+ * breakdown by residents (figure out best format)
+ * pie chart by carrier
  */
 
 export default function Overview() {
@@ -38,10 +40,9 @@ export default function Overview() {
     return(
         <>
             <Head>
-                <title>Super Admin Dash</title>
+                <title>Overview</title>
             </Head>
             <div className="flex flex-col min-h-screen min-w-[90vw] ml px-[5vw]">
-                <h1 className="position absolute top-0 left-0 m-2">Super Admin Dash</h1>
                 {isLoading || data === null || loggedData === null ? (
                     <CircularProgress />
                 ) : (
