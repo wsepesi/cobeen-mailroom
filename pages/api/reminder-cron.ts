@@ -32,14 +32,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             const content = `Hi ${First},\n\nWe noticed that you haven't picked up your package delivered on ${date.toLocaleDateString('en-US')} yet. Please come to the mailroom to pick it up. If you think this is an error, please come talk to the desk -- your package may not have been properly marked as retrieved.\n\nThanks,\nCobeen Staff`
             const subject = "Reminder: You have a package waiting for you"
 
-            await sendEmailWithContent(
-                Email, 
-                content, 
-                DOMINIC_EMAIL, 
-                MARQUETTE_EMAIL, 
-                process.env.MARQUETTE_GMAIL_PASS, 
-                subject
-            )
+            try{
+                await sendEmailWithContent(
+                    Email, 
+                    content, 
+                    DOMINIC_EMAIL, 
+                    MARQUETTE_EMAIL, 
+                    process.env.MARQUETTE_GMAIL_PASS, 
+                    subject
+                )
+            } catch (e) {
+                // just handle inline here so we can blast out other emails if one fails for some transient reason
+                console.error(e)
+            }
         }
 
         res.status(200).json(true)
