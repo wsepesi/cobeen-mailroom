@@ -84,4 +84,20 @@ type KeyPair = {
     pass: string
 }
 
-export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }
+type DashboardPackage = {
+    packageId: number,
+    name: string,
+    email: string,
+    studentId: string,
+    provider: string,
+    ingestedTime: string
+}
+
+type Hall = "cobeen" | "mashuda" | "carpenter"
+
+type HallStats = {
+    hall: Hall,
+    packages: DashboardPackage[]
+}
+
+export type { Hall, HallStats, DashboardPackage, Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }

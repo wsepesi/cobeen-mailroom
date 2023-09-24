@@ -1,22 +1,7 @@
-import { ObjectId } from "mongodb"
-import { Package } from "@/lib/types"
+import { DashboardPackage, Package } from "@/lib/types"
+import { compareDateStrings, objectIdToDate } from "@/lib/adminUtils"
+
 import TableBase from "./TableBase"
-import { compareDateStrings } from "@/lib/adminUtils"
-
-const objectIdToDate = (_id: ObjectId) => {
-    const timestamp = _id.toString().substring(0,8)
-    const date = new Date( parseInt( timestamp, 16 ) * 1000 )
-    return date.toLocaleString()
-}
-
-type DashboardPackage = {
-    packageId: number,
-    name: string,
-    email: string,
-    studentId: string,
-    provider: string,
-    ingestedTime: string
-}
 
 interface HeaderProps extends React.HTMLAttributes<HTMLTableCellElement> { 
     scope?: "col"
