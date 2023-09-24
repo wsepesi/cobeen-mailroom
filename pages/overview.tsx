@@ -19,7 +19,7 @@ const halls: Hall[] = [
  * average wait time to pick up package as a line graph over time, per dorm
  */
 
-export default function Admin() {
+export default function Overview() {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState<HallStats[] | null>(null)
     const [loggedData, setLoggedData] = useState<HallStats[] | null>(null)
