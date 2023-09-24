@@ -34,9 +34,8 @@ type MonthData = HallTotal & {
     name: Month,
 }
 
-type WeekData = {
+type WeekData = HallTotal & {
     name: string,
-    total: number
 }
 
 const dataByMonths = (data: HallStats[]): MonthData[] => {
@@ -92,10 +91,10 @@ const dataByWeeks = (data: HallStats[]): WeekData[] => {
             if (weekDatum === undefined) {
                 weekData.push({
                     name: week,
-                    total: 1
+                    [hall.hall]: 1
                 })
             } else {
-                weekDatum.total += 1
+                weekDatum[hall.hall] = weekDatum[hall.hall] === undefined ? 1 : weekDatum[hall.hall]! + 1
             }
         })
     })
@@ -167,7 +166,15 @@ const BarCharts = (props: Props) => {
                     tickFormatter={(value) => `${value}`}
                     />
                     <Tooltip />
-                    <Bar dataKey="total" fill="#FAC898" radius={[4, 4, 0, 0]} />
+                    {props.halls.map((hall, key) => {
+                        return <Bar 
+                            dataKey={hall} 
+                            key={key} 
+                            fill={colorMap(hall)} 
+                            radius={[4, 4, 0, 0]} 
+                            stackId="stack"
+                        />
+                    })}
                     <Legend />
                 </BarChart>
             </ResponsiveContainer>
