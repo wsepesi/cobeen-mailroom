@@ -1,4 +1,4 @@
-import { DashboardPackage, Hall, HallStats, Package } from "./types"
+import { DashboardPackage, DayData, Granularity, Hall, HallStats, Month, MonthData, Package, WeekData } from "./types"
 
 import { ObjectId } from "mongodb"
 
@@ -133,4 +133,145 @@ const colorMap = (hall: Hall): string => {
     }
 }
 
-export { colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }
+const months: Month[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug", 
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+]
+
+const isOlderThan = (date1: Date, date2: Date): boolean => {
+    return date1.getFullYear() < date2.getFullYear() || 
+        (date1.getFullYear() === date2.getFullYear() && date1.getMonth() < date2.getMonth()) ||
+        (date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() < date2.getDate())
+}
+// date for 08/01/2023
+const beforeDate = new Date(2023, 7, 1)
+
+
+const dataByT = <T extends MonthData | DayData | WeekData>(
+    data: HallStats[], 
+    filterFunc: (date: Date, data: T[]) => [string, T],
+    sortFunc: (data: T[]) => T[],
+    handlerFunc: (data: T[], datum: T, name: Month | string, hall: Hall) => void
+): T[] => {
+    const TData: T[] = []
+    data.forEach((hall) => {
+        hall.packages.forEach((pkg) => {
+            const date: Date = new Date(pkg.ingestedTime)
+
+            if (isOlderThan(date, beforeDate)) {
+                return
+            }
+
+            const [ name, datum ] = filterFunc(date, TData)
+            handlerFunc(TData, datum, name, hall.hall)
+        })
+    })
+
+    return sortFunc(TData)
+}
+
+const dataByMonths = (
+    data: HallStats[], 
+    handlerFunc: (data: MonthData[], datum: MonthData, name: Month | string, hall: Hall) => void
+): MonthData[] => {
+    const filterFunc = (date: Date, data: MonthData[]): [Month, MonthData] => {
+        const month: Month = months[date.getMonth()]
+        const datum = data.find((d) => d.name === month)
+        return [month, datum!]
+    }
+    const sortFunc = (data: MonthData[]): MonthData[] => {
+        // sort data by month
+        data.sort((a, b) => {
+            return months.indexOf(a.name) - months.indexOf(b.name)
+        })
+        return data
+    }
+
+    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+}
+
+const dataByWeeks = (
+    data: HallStats[], 
+    handlerFunc: (data: WeekData[], datum: WeekData, name: string, hall: Hall) => void
+): WeekData[] => {
+    // define convention that a week starts on a monday
+    const filterFunc = (date: Date, data: WeekData[]): [string, WeekData] => {
+        // each week is defined by the preceeding monday
+        const day = date.getDay()
+        const monday = new Date(date)
+        monday.setDate(date.getDate() - (day === 0 ? 6 : day - 1))
+        const week = `${monday.getMonth() + 1}/${monday.getDate()}`
+        const datum = data.find((d) => d.name === week)
+        return [week, datum!]
+    }
+    const sortFunc = (data: WeekData[]): WeekData[] => {
+        // sort data by week (first sort by month, then day)
+        data.sort((a, b) => {
+            const aMonth = parseInt(a.name.split('/')[0])
+            const bMonth = parseInt(b.name.split('/')[0])
+            if (aMonth !== bMonth) {
+                return aMonth - bMonth
+            }
+            const aDay = parseInt(a.name.split('/')[1])
+            const bDay = parseInt(b.name.split('/')[1])
+            return aDay - bDay
+        })
+        return data
+    }
+
+    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+}
+
+const dataByDays = (
+    data: HallStats[], 
+    handlerFunc: (data: DayData[], datum: DayData, name: string, hall: Hall) => void
+): DayData[] => {
+    const filterFunc = (date: Date, data: DayData[]): [string, DayData] => {
+        const day = `${date.getMonth() + 1}/${date.getDate()}`
+        const datum = data.find((d) => d.name === day)
+        return [day, datum!]
+    }
+    const sortFunc = (data: DayData[]): DayData[] => {
+        // sort data by day (first sort by month, then day)
+        data.sort((a, b) => {
+            const aMonth = parseInt(a.name.split('/')[0])
+            const bMonth = parseInt(b.name.split('/')[0])
+            if (aMonth !== bMonth) {
+                return aMonth - bMonth
+            }
+            const aDay = parseInt(a.name.split('/')[1])
+            const bDay = parseInt(b.name.split('/')[1])
+            return aDay - bDay
+        })
+        return data
+    }
+
+    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+}
+
+const dataByGranularity = (
+    data: HallStats[], 
+    granularity: Granularity,
+    handlerFunc: (data: MonthData[] | WeekData[] | DayData[], datum: MonthData | WeekData | DayData, name: Month | string, hall: Hall) => void
+): MonthData[] | WeekData[] | DayData[] => {
+    switch (granularity) {
+        case "month":
+            return dataByMonths(data, handlerFunc)
+        case "week":
+            return dataByWeeks(data, handlerFunc)
+        case "day":
+            return dataByDays(data, handlerFunc)
+    }
+}
+
+export { dataByGranularity, colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }

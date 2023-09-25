@@ -100,4 +100,25 @@ type HallStats = {
     packages: DashboardPackage[]
 }
 
-export type { Hall, HallStats, DashboardPackage, Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }
+type HallTotal = {
+    [K in Hall]?: number
+}
+
+type MonthData = HallTotal & {
+    name: Month,
+}
+
+type WeekData = HallTotal & {
+    name: string,
+}
+
+type DayData = HallTotal & {
+    name: string,
+}
+
+type Month = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | 
+    "Sep" | "Oct" | "Nov" | "Dec"
+
+type Granularity = "month" | "week" | "day"
+
+export type { Granularity, HallTotal, MonthData, WeekData, DayData, Month, Hall, HallStats, DashboardPackage, Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }

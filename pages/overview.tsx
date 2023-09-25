@@ -1,11 +1,12 @@
 import { DashboardPackage, Hall, HallStats, Package } from "@/lib/types"
-import { getAllLoggedPackages, getAllPackages } from "@/lib/adminUtils";
+import { combineData, getAllLoggedPackages, getAllPackages } from "@/lib/adminUtils";
 import { useEffect, useState } from "react";
 
 import BarCharts from "@/components/BarChart";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
 import Statistics from "@/components/Statistics";
+import TimeToPickup from "@/components/TimeToPickup";
 
 const halls: Hall[] = [
     "cobeen",
@@ -54,10 +55,10 @@ export default function Overview() {
                         />
                         <hr className="my-[5vh]"/>
                         <BarCharts 
-                            data={data}
-                            loggedData={loggedData}
+                            data={combineData(data, loggedData)}
                             halls={halls}
                         />
+                        <TimeToPickup />
                     </div>
                 )}
             </div>
