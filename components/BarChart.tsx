@@ -1,6 +1,6 @@
 import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { DayData, Granularity, Hall, HallStats, Month, MonthData, WeekData } from "@/lib/types"
-import { colorMap, combineData, dataByGranularity } from "@/lib/adminUtils"
+import { colorMap, dataByGranularity, firstCharToCaps } from "@/lib/adminUtils"
 
 import { useState } from "react"
 
@@ -24,7 +24,6 @@ const totalHandler = <T extends MonthData | WeekData | DayData>(
         datum[hall] = datum[hall] === undefined ? 1 : datum[hall]! + 1
     }
 }
-
 const BarCharts = (props: Props) => {
     const data = props.data
     const [granularity, setGranularity] = useState<Granularity>("day")
@@ -39,10 +38,9 @@ const BarCharts = (props: Props) => {
                 <option value="week">Week</option>
                 <option value="day">Day</option>
             </select>
-            {granularity === "month" && <>
-            <h2>Packages by Month</h2>
+            <h2>Packages by {firstCharToCaps(granularity)}</h2>
             <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={dataByGranularity(data, "month", totalHandler)}>
+                <BarChart data={dataByGranularity(data, granularity, totalHandler)}>
                     <XAxis
                     dataKey="name"
                     stroke="#888888"
@@ -70,74 +68,57 @@ const BarCharts = (props: Props) => {
                     <Legend />
                 </BarChart>
             </ResponsiveContainer>
-            </>}
-
-            {granularity === "week" && <>
-            <h2>Packages by Week</h2>
-            <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={dataByGranularity(data, "week", totalHandler)}>
-                    <XAxis
-                    dataKey="name"
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    />
-                    <YAxis
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) => `${value}`}
-                    />
-                    <Tooltip />
-                    {props.halls.map((hall, key) => {
-                        return <Bar 
-                            dataKey={hall} 
-                            key={key} 
-                            fill={colorMap(hall)} 
-                            radius={[4, 4, 0, 0]} 
-                            stackId="stack"
-                        />
-                    })}
-                    <Legend />
-                </BarChart>
-            </ResponsiveContainer></>}
-
-            {granularity === "day" && <>
-            <h2>Packages by Day</h2>
-            <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={dataByGranularity(data, "day", totalHandler)}>
-                    <XAxis
-                    dataKey="name"
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    />
-                    <YAxis
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) => `${value}`}
-                    />
-                    <Tooltip />
-                    {props.halls.map((hall, key) => {
-                        return <Bar 
-                            dataKey={hall} 
-                            key={key} 
-                            fill={colorMap(hall)} 
-                            radius={[4, 4, 0, 0]} 
-                            stackId="stack"
-                        />
-                    })}
-                    <Legend />
-                </BarChart>
-            </ResponsiveContainer>
-            </>}
         </div>
     )
 }
 
 export default BarCharts
+
+// type Props = {
+//     data: HallStats[],
+//     halls: Hall[]
+// }
+
+// const BarCharts = (props: Props) => {
+//     const { data, halls }= props
+//     return(
+//         <>
+//             <ChartHandler 
+//             data={data} 
+//             halls={halls}
+//             >
+//                 <ResponsiveContainer width="100%" height={350}>
+//                     <BarChart data={dataByGranularity(data, granularity, totalHandler)}>
+//                         <XAxis
+//                         dataKey="name"
+//                         stroke="#888888"
+//                         fontSize={12}
+//                         tickLine={false}
+//                         axisLine={false}
+//                         />
+//                         <YAxis
+//                         stroke="#888888"
+//                         fontSize={12}
+//                         tickLine={false}
+//                         axisLine={false}
+//                         tickFormatter={(value) => `${value}`}
+//                         />
+//                         <Tooltip />
+//                         {props.halls.map((hall, key) => {
+//                             return <Bar 
+//                                 dataKey={hall} 
+//                                 key={key} 
+//                                 fill={colorMap(hall)} 
+//                                 radius={[4, 4, 0, 0]} 
+//                                 stackId="stack"
+//                             />
+//                         })}
+//                         <Legend />
+//                     </BarChart>
+//                 </ResponsiveContainer>
+//             </ChartHandler>
+//         </>
+//     )
+
+// }
+// export default BarCharts

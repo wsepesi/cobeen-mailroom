@@ -1,4 +1,4 @@
-import { DashboardPackage, Hall, HallStats, Package } from "@/lib/types"
+import { Hall, HallLogged, HallStats } from "@/lib/types"
 import { combineData, getAllLoggedPackages, getAllPackages } from "@/lib/adminUtils";
 import { useEffect, useState } from "react";
 
@@ -25,7 +25,7 @@ const halls: Hall[] = [
 export default function Overview() {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState<HallStats[] | null>(null)
-    const [loggedData, setLoggedData] = useState<HallStats[] | null>(null)
+    const [loggedData, setLoggedData] = useState<HallLogged[] | null>(null)
 
     useEffect(() => {
         setIsLoading(true)
@@ -58,7 +58,11 @@ export default function Overview() {
                             data={combineData(data, loggedData)}
                             halls={halls}
                         />
-                        <TimeToPickup />
+                        <TimeToPickup 
+                            data={data}
+                            loggedData={loggedData}
+                            halls={halls}
+                        />
                     </div>
                 )}
             </div>

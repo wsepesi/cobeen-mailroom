@@ -1,4 +1,4 @@
-import { LogPackage, Package } from "@/lib/types"
+import { DashboardLogged, LogPackage, Package } from "@/lib/types"
 
 import { ObjectId } from "mongodb"
 import TableBase from "./TableBase"
@@ -14,16 +14,6 @@ const UTCToString = (utc: Date) => {
     // create a new date object with the timestamp, so that we can convert it back to a readable string
     const date = new Date(utc)
     return date.toLocaleString()
-}
-
-type DashboardLogged = {
-    packageId: number,
-    name: string,
-    email: string,
-    studentId: string,
-    provider: string,
-    ingestedTime: string,
-    retrievedTime: string
 }
 
 interface HeaderProps extends React.HTMLAttributes<HTMLTableCellElement> { 

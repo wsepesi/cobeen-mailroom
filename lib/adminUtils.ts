@@ -1,4 +1,4 @@
-import { DashboardPackage, DayData, Granularity, Hall, HallStats, Month, MonthData, Package, WeekData } from "./types"
+import { DashboardLogged, DashboardPackage, DayData, Granularity, Hall, HallLogged, HallStats, LogPackage, Month, MonthData, Package, WeekData } from "./types"
 
 import { ObjectId } from "mongodb"
 
@@ -66,17 +66,18 @@ const getPackages = async (hall: string): Promise<DashboardPackage[]> => {
     return dashboardPackages
 }
 
-const getLoggedPackages = async (hall: string): Promise<DashboardPackage[]> => {
+const getLoggedPackages = async (hall: string): Promise<DashboardLogged[]> => {
     const res = await fetch('/api/get-logged-packages-from?' + new URLSearchParams({ hall: hall }))
-    const packages: Package[] = (await res.json()).records
-    const dashboardPackages: DashboardPackage[] = packages.map((p) => {
+    const packages: LogPackage[] = (await res.json()).records
+    const dashboardPackages: DashboardLogged[] = packages.map((p) => {
         return {
             packageId: p.packageId,
             name: `${p.First} ${p.Last}`,
             email: p.Email,
             studentId: p.studentId,
             provider: p.provider,
-            ingestedTime: objectIdToDate(p._id)
+            ingestedTime: p.ingestedTime.toString(),
+            retrievedTime: objectIdToDate(p._id)
         }
     }).sort((a, b) => {
         return compareDateStrings(a.ingestedTime, b.ingestedTime)
@@ -96,7 +97,7 @@ const getAllPackages = async (halls: Hall[]): Promise<HallStats[]> => {
     return data
 }
 
-const getAllLoggedPackages = async (halls: Hall[]): Promise<HallStats[]> => {
+const getAllLoggedPackages = async (halls: Hall[]): Promise<HallLogged[]> => {
     const data = await Promise.all(halls.map(async (hall) => {
         const packages = await getLoggedPackages(hall)
         return {
@@ -110,6 +111,7 @@ const getAllLoggedPackages = async (halls: Hall[]): Promise<HallStats[]> => {
 const combineData = (data: HallStats[], loggedData: HallStats[]) => {
     const combinedData: HallStats[] = data.map((d) => {
         const loggedHall = loggedData.find((ld) => ld.hall === d.hall)
+        // combine packages, but converting logged packages to dashboard packages first, just dropping the extra property
         const combinedPackages = d.packages.concat(loggedHall?.packages || [])
         return {
             hall: d.hall,
@@ -133,7 +135,7 @@ const colorMap = (hall: Hall): string => {
     }
 }
 
-const months: Month[] = [
+export const months: Month[] = [
     "Jan",
     "Feb",
     "Mar",
@@ -192,12 +194,16 @@ const dataByMonths = (
     const sortFunc = (data: MonthData[]): MonthData[] => {
         // sort data by month
         data.sort((a, b) => {
-            return months.indexOf(a.name) - months.indexOf(b.name)
+            return months.indexOf(a.name as Month) - months.indexOf(b.name as Month)
         })
         return data
     }
 
     return dataByT(data, filterFunc, sortFunc, handlerFunc)
+}
+
+const firstCharToCaps = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 const dataByWeeks = (
@@ -274,4 +280,4 @@ const dataByGranularity = (
     }
 }
 
-export { dataByGranularity, colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }
+export { firstCharToCaps, dataByGranularity, colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }
