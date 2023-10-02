@@ -1,4 +1,4 @@
-import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { DayData, Granularity, Hall, HallStats, Month, MonthData, WeekData } from "@/lib/types"
 import { colorMap, dataByGranularity, firstCharToCaps } from "@/lib/adminUtils"
 
@@ -67,6 +67,36 @@ const BarCharts = (props: Props) => {
                     })}
                     <Legend />
                 </BarChart>
+            </ResponsiveContainer>
+            <ResponsiveContainer width="100%" height={350}>
+                <AreaChart 
+                    data={dataByGranularity(data, granularity, totalHandler)}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <defs>
+                        {props.halls.map((hall, key) => {
+                            return <linearGradient id={`color${hall}`} x1="0" y1="0" x2="0" y2="1" key={key}>
+                                <stop offset="5%" stopColor={colorMap(hall)} stopOpacity={0.8}/>
+                                <stop offset="95%" stopColor={colorMap(hall)} stopOpacity={0}/>
+                            </linearGradient>
+                        })}
+                    </defs>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    {props.halls.map((hall, key) => {
+                        return <Area
+                            type="monotone"
+                            connectNulls
+                            dataKey={hall}
+                            key={key}
+                            stroke={colorMap(hall)}
+                            fillOpacity={1}
+                            fill={`url("#color${hall}")`}
+                            />
+                    })}
+                    <Legend />
+                </AreaChart>
             </ResponsiveContainer>
         </div>
     )

@@ -50,13 +50,15 @@ export default function Admin() {
                 })
                 
                 const loadedRoster: SafeRoster[] = sheetJson.map((row) => {
-                    return {
-                        Last_Name: row.Last_Name,
-                        First_Name: row.First_Name,
-                        University_ID: row.University_ID,
-                        Default_Email: row.Default_Email
+                    if (row.University_ID !== undefined) {
+                        return {
+                            Last_Name: row.Last_Name,
+                            First_Name: row.First_Name,
+                            University_ID: row.University_ID,
+                            Default_Email: row.Default_Email
+                        }
                     }
-                })
+                }) as SafeRoster[]
 
                 setRoster(loadedRoster)
             }

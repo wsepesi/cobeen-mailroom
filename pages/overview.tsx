@@ -3,6 +3,7 @@ import { combineData, getAllLoggedPackages, getAllPackages } from "@/lib/adminUt
 import { useEffect, useState } from "react";
 
 import BarCharts from "@/components/BarChart";
+import ByDistributor from "@/components/ByDistributor";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
 import Statistics from "@/components/Statistics";
@@ -17,7 +18,7 @@ const halls: Hall[] = [
 /** Desired Features:
  * # total packages, # packages per dorm [DONE]
  * bar chart of packages per month, with a different color for each dorm. can toggle to weekly [DONE]
- * average wait time to pick up package as a line graph over time, per dorm
+ * average wait time to pick up package as a line graph over time, per dorm [DONE]
  * breakdown by residents (figure out best format)
  * pie chart by carrier
  */
@@ -61,6 +62,10 @@ export default function Overview() {
                         <TimeToPickup 
                             data={data}
                             loggedData={loggedData}
+                            halls={halls}
+                        />
+                        <ByDistributor
+                            data={combineData(data, loggedData)}
                             halls={halls}
                         />
                     </div>

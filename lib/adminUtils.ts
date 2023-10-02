@@ -280,4 +280,134 @@ const dataByGranularity = (
     }
 }
 
-export { firstCharToCaps, dataByGranularity, colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }
+// define avg time to pickup as of the packages picked up during this time, how many hours did it take to pick it up
+const avgTimeToPickup = (data: HallLogged[], granularity: Granularity): MonthData[] | WeekData[] | DayData[] => {
+    type countingData = {
+        count: number,
+        totalTime: number
+    }
+    
+    const granularities: [Hall, Map<string, countingData>][] = []
+    data.forEach((datum) => {
+        const hall = datum.hall
+        const packages = datum.packages
+
+        const cutOffDate = new Date(2023, 7, 1)
+        const recentPackages = packages.filter((pkg) => new Date(pkg.ingestedTime) > cutOffDate)
+
+        
+        const granularityToDataMap = new Map<string, countingData>()
+        // divide into blocks of granularity
+        if (granularity === "month") {
+            recentPackages.forEach((pkg => {
+                const retrievedDate = new Date(pkg.retrievedTime)
+                const ingestedDate = new Date(pkg.ingestedTime)
+
+                const month: Month = months[retrievedDate.getMonth()]
+                const timeToRetrieval = (retrievedDate.getTime() - ingestedDate.getTime()) / 1000 / 60 / 60
+
+                if (!granularityToDataMap.has(month)) {
+                    granularityToDataMap.set(month, {
+                        count: 1,
+                        totalTime: timeToRetrieval
+                    })
+                } else {
+                    const data = granularityToDataMap.get(month)!
+                    data.count++
+                    data.totalTime += timeToRetrieval
+                }
+            }))
+        }
+        else if (granularity === "week") {
+            recentPackages.forEach((pkg => {
+                const retrievedDate = new Date(pkg.retrievedTime)
+                const ingestedDate = new Date(pkg.ingestedTime)
+
+                // get the week, as by the previous monday's date
+                const date = retrievedDate
+                const day = date.getDay()
+                const monday = new Date(date)
+                monday.setDate(date.getDate() - (day === 0 ? 6 : day - 1))
+                const week = `${monday.getMonth() + 1}/${monday.getDate()}`
+                // const week: string = new Date(retrievedDate.getTime() - (retrievedDate.getDay() - 1) * 24 * 60 * 60 * 1000).toDateString()
+                const timeToRetrieval = (retrievedDate.getTime() - ingestedDate.getTime()) / 1000 / 60 / 60
+
+                if (!granularityToDataMap.has(week)) {
+                    granularityToDataMap.set(week, {
+                        count: 1,
+                        totalTime: timeToRetrieval
+                    })
+                } else {
+                    const data = granularityToDataMap.get(week)!
+                    data.count++
+                    data.totalTime += timeToRetrieval
+                }
+            }))} 
+            else if (granularity === "day") {
+                recentPackages.forEach((pkg => {
+                    const retrievedDate = new Date(pkg.retrievedTime)
+                    const ingestedDate = new Date(pkg.ingestedTime)
+
+                    const day = `${retrievedDate.getMonth() + 1}/${retrievedDate.getDate()}`
+                    const timeToRetrieval = (retrievedDate.getTime() - ingestedDate.getTime()) / 1000 / 60 / 60
+
+                    if (!granularityToDataMap.has(day)) {
+                        granularityToDataMap.set(day, {
+                            count: 1,
+                            totalTime: timeToRetrieval
+                        })
+                    } else {
+                        const data = granularityToDataMap.get(day)!
+                        data.count++
+                        data.totalTime += timeToRetrieval
+                    }
+                }))
+            } else {
+                throw new Error("Invalid granularity")
+            }
+        granularities.push([hall, granularityToDataMap])
+    })
+    // process into final form
+    const finalData: MonthData[] | WeekData[] | DayData[] = []
+    granularities.forEach((pair) => {
+        const hall = pair[0]
+        const granularityToDataMap = pair[1]
+        granularityToDataMap.forEach((data, granularity) => {
+            const avgTimeToPickup = data.totalTime / data.count
+            const datum = {
+                name: granularity,
+                [hall]: avgTimeToPickup
+            }
+            // if finaldata has this granularity, add the hall to the datum
+            const index = finalData.findIndex((datum) => datum.name === granularity)
+            if (index === -1) {
+                finalData.push(datum)
+            } else {
+                finalData[index][hall] = avgTimeToPickup
+            }
+        })
+    })
+    // sort final data by date
+    if (granularity !== "month") {
+        finalData.sort((a, b) => {
+            const m1 = a.name.split("/")[0]
+            const d1 = a.name.split("/")[1]
+            const m2 = b.name.split("/")[0]
+            const d2 = b.name.split("/")[1]
+            if (m1 === m2) {
+                return parseInt(d1) - parseInt(d2)
+            } else {
+                return parseInt(m1) - parseInt(m2)
+            }
+        })
+    } else {
+        finalData.sort((a, b) => {
+            const m1 = months.indexOf(a.name as Month)
+            const m2 = months.indexOf(b.name as Month)
+            return m1 - m2
+        })
+    }
+    return finalData
+}
+
+export { avgTimeToPickup, firstCharToCaps, dataByGranularity, colorMap, combineData, resetPass, compareDateStrings, getPackages, getLoggedPackages, getAllPackages, getAllLoggedPackages }
