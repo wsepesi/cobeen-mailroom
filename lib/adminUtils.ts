@@ -163,12 +163,22 @@ const dataByT = <T extends MonthData | DayData | WeekData>(
     data: HallStats[], 
     filterFunc: (date: Date, data: T[]) => [string, T],
     sortFunc: (data: T[]) => T[],
-    handlerFunc: (data: T[], datum: T, name: Month | string, hall: Hall) => void
+    handlerFunc: (data: T[], datum: T, name: Month | string, hall: Hall) => void,
+    inbound: boolean = true
 ): T[] => {
     const TData: T[] = []
     data.forEach((hall) => {
         hall.packages.forEach((pkg) => {
-            const date: Date = new Date(pkg.ingestedTime)
+            let date: Date
+            if (pkg.hasOwnProperty("retrievedTime") && !inbound) {
+                const loggedPkg = pkg as DashboardLogged
+                date = new Date(loggedPkg.retrievedTime)
+            } else if (pkg.hasOwnProperty("ingestedTime") && inbound) {
+                const dashboardPkg = pkg as DashboardPackage
+                date = new Date(dashboardPkg.ingestedTime)
+            } else {
+                return
+            }
 
             if (isOlderThan(date, beforeDate)) {
                 return
@@ -184,7 +194,8 @@ const dataByT = <T extends MonthData | DayData | WeekData>(
 
 const dataByMonths = (
     data: HallStats[], 
-    handlerFunc: (data: MonthData[], datum: MonthData, name: Month | string, hall: Hall) => void
+    handlerFunc: (data: MonthData[], datum: MonthData, name: Month | string, hall: Hall) => void,
+    inbound: boolean
 ): MonthData[] => {
     const filterFunc = (date: Date, data: MonthData[]): [Month, MonthData] => {
         const month: Month = months[date.getMonth()]
@@ -199,7 +210,7 @@ const dataByMonths = (
         return data
     }
 
-    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+    return dataByT(data, filterFunc, sortFunc, handlerFunc, inbound)
 }
 
 const firstCharToCaps = (str: string) => {
@@ -208,7 +219,8 @@ const firstCharToCaps = (str: string) => {
 
 const dataByWeeks = (
     data: HallStats[], 
-    handlerFunc: (data: WeekData[], datum: WeekData, name: string, hall: Hall) => void
+    handlerFunc: (data: WeekData[], datum: WeekData, name: string, hall: Hall) => void,
+    inbound: boolean
 ): WeekData[] => {
     // define convention that a week starts on a monday
     const filterFunc = (date: Date, data: WeekData[]): [string, WeekData] => {
@@ -235,12 +247,13 @@ const dataByWeeks = (
         return data
     }
 
-    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+    return dataByT(data, filterFunc, sortFunc, handlerFunc, inbound)
 }
 
 const dataByDays = (
     data: HallStats[], 
-    handlerFunc: (data: DayData[], datum: DayData, name: string, hall: Hall) => void
+    handlerFunc: (data: DayData[], datum: DayData, name: string, hall: Hall) => void,
+    inbound: boolean
 ): DayData[] => {
     const filterFunc = (date: Date, data: DayData[]): [string, DayData] => {
         const day = `${date.getMonth() + 1}/${date.getDate()}`
@@ -262,21 +275,22 @@ const dataByDays = (
         return data
     }
 
-    return dataByT(data, filterFunc, sortFunc, handlerFunc)
+    return dataByT(data, filterFunc, sortFunc, handlerFunc, inbound)
 }
 
 const dataByGranularity = (
     data: HallStats[], 
     granularity: Granularity,
-    handlerFunc: (data: MonthData[] | WeekData[] | DayData[], datum: MonthData | WeekData | DayData, name: Month | string, hall: Hall) => void
+    handlerFunc: (data: MonthData[] | WeekData[] | DayData[], datum: MonthData | WeekData | DayData, name: Month | string, hall: Hall) => void,
+    inbound: boolean
 ): MonthData[] | WeekData[] | DayData[] => {
     switch (granularity) {
         case "month":
-            return dataByMonths(data, handlerFunc)
+            return dataByMonths(data, handlerFunc, inbound)
         case "week":
-            return dataByWeeks(data, handlerFunc)
+            return dataByWeeks(data, handlerFunc, inbound)
         case "day":
-            return dataByDays(data, handlerFunc)
+            return dataByDays(data, handlerFunc, inbound)
     }
 }
 

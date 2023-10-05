@@ -2,12 +2,12 @@ import { Hall, HallLogged, HallStats } from "@/lib/types"
 import { combineData, getAllLoggedPackages, getAllPackages } from "@/lib/adminUtils";
 import { useEffect, useState } from "react";
 
-import BarCharts from "@/components/BarChart";
 import ByDistributor from "@/components/ByDistributor";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
 import Statistics from "@/components/Statistics";
 import TimeToPickup from "@/components/TimeToPickup";
+import Total from "@/components/Total";
 
 const halls: Hall[] = [
     "cobeen",
@@ -55,7 +55,7 @@ export default function Overview() {
                             halls={halls}
                         />
                         <hr className="my-[5vh]"/>
-                        <BarCharts 
+                        <Total
                             data={combineData(data, loggedData)}
                             halls={halls}
                         />

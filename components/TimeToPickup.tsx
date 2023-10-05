@@ -12,18 +12,9 @@ type Props = {
 
 const TimeToPickup = (props: Props): React.ReactElement => {
     const { data, loggedData, halls } = props
-    const [granularity, setGranularity] = useState<Granularity>("day")
+    const [granularity, setGranularity] = useState<Granularity>("week")
     return(
         <div className="flex flex-col justify-center items-center">
-            <select 
-                className="my-5"
-                value={granularity}
-                onChange={(e) => setGranularity(e.target.value as Granularity)}
-            >
-                <option value="month">Month</option>
-                <option value="week">Week</option>
-                <option value="day">Day</option>
-            </select>
             <h2>Average Time to Pickup in Hours by {firstCharToCaps(granularity)}</h2>
             <ResponsiveContainer width="100%" height={350}>
                 <LineChart
