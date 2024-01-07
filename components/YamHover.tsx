@@ -6,6 +6,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { CalendarDays } from "lucide-react"
+import Link from "next/link"
 import { TypographyP } from "./ui/p"
 
 export function YamHover() {
@@ -18,7 +19,7 @@ export function YamHover() {
         {/* <TypographyP className="font-mono text-sm items-center">Yam</TypographyP> */}
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
-        <div className="flex justify-between space-x-4">
+        <div className="">
           {/* <Avatar>
             <AvatarImage src="https://github.com/vercel.png" />
             <AvatarFallback>VC</AvatarFallback>
@@ -35,7 +36,8 @@ export function YamHover() {
               </span>
             </div>
           </div> */}
-          <p className="font-mono text-sm">Yam is a bespoke mailroom management and data platform. Contact <strong>sales@useyam.com</strong> for more information.</p>
+          <p className="font-mono text-sm">Yam is a bespoke mailroom management and data platform. Contact <strong>sales@useyam.com</strong> for more information or 
+          visit <Link href="https://useyam.com" className="underline hover:cursor-pointer hover:italic">useyam.com</Link></p>
         </div>
       </HoverCardContent>
     </HoverCard>
