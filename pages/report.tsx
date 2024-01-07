@@ -108,7 +108,7 @@ export default function Report() {
     return (
         <div className="flex flex-col justify-start items-center w-full h-full min-h-[100vh]">
             <TypographyH1 className="mt-5 mb-1 font-sans text-3xl">{HALL} Hall Report -- {INTERVAL}</TypographyH1>
-            <TypographyH2 className="font-mono mb-3 text-sm">Generated with Yam🍠</TypographyH2>
+            <TypographyH2 className="font-mono mb-3 text-sm">Generated with [Yam]🍠</TypographyH2>
             {isLoading || data === null || loggedData === null ? 
                 <Skeleton className="w-full" /> :
                 <div className="flex flex-col items-center justify-center w-full min-h-[80vh]">
