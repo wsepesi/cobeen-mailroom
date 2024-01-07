@@ -53,6 +53,13 @@ export default function Overview() {
                             data={data}
                             loggedData={loggedData}
                             halls={halls}
+                            yearly={false}
+                        />
+                        <Statistics
+                            data={data}
+                            loggedData={loggedData}
+                            halls={halls}
+                            yearly={true}
                         />
                         <hr className="my-[5vh]"/>
                         <Total

@@ -1,12 +1,15 @@
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { DayData, Granularity, Hall, HallStats, Month, MonthData, WeekData } from "@/lib/types"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
 import { colorMap, dataByGranularity, firstCharToCaps } from "@/lib/adminUtils"
 
+import { TypographyP } from "./ui/p"
 import { useState } from "react"
 
 type Props = {
     data: HallStats[],
-    halls: Hall[]
+    halls: Hall[],
+    forReport?: boolean
 }
 
 const totalHandler = <T extends MonthData | WeekData | DayData>(
@@ -26,20 +29,40 @@ const totalHandler = <T extends MonthData | WeekData | DayData>(
 }
 
 const Total = (props: Props) => {
+    const forReport = props.forReport ?? false
     const data = props.data
     const [granularity, setGranularity] = useState<Granularity>("week")
+
+    const handleChange = (value: Granularity) => {
+        setGranularity(value)
+    }
     return(
         <div className="flex flex-col justify-center items-center">
-            <select 
-                className="my-5"
+            {/* <select 
+                className="my-1"
                 value={granularity}
                 onChange={(e) => setGranularity(e.target.value as Granularity)}
             >
                 <option value="month">Month</option>
                 <option value="week">Week</option>
                 <option value="day">Day</option>
-            </select>
-            <h2>Packages Ingested by {firstCharToCaps(granularity)}</h2>
+            </select> */}
+            <Select onValueChange={handleChange} defaultValue={"week"}>
+                <SelectTrigger className="my-1 w-[140px]">
+                    <SelectValue placeholder="Granularity" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>Granularity</SelectLabel>
+                        <SelectItem value="week">Week</SelectItem>
+                        <SelectItem value="month">Month</SelectItem>
+                        <SelectItem value="day">Day</SelectItem>
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+            <div className={`flex w-full`}>
+                <div className="flex flex-col w-full">
+                <TypographyP>Packages Ingested by {firstCharToCaps(granularity)}</TypographyP>
             {granularity === "day" ? 
                 <ResponsiveContainer width="100%" height={350}>
                     <BarChart data={dataByGranularity(data, granularity, totalHandler, true)}>
@@ -102,9 +125,11 @@ const Total = (props: Props) => {
                 </AreaChart>
             </ResponsiveContainer>
         }  
-        <h2>Packages Retrieved by {firstCharToCaps(granularity)}</h2>
+        </div>
+        <div className="flex flex-col w-full">
+        <TypographyP>Packages Retrieved by {firstCharToCaps(granularity)}</TypographyP>
             {granularity === "day" ? 
-                <ResponsiveContainer width="100%" height={350}>
+                <ResponsiveContainer width={!forReport ? "100%" : "50%"} height={350}>
                     <BarChart data={dataByGranularity(data, granularity, totalHandler, false)}>
                         <XAxis
                         dataKey="name"
@@ -134,7 +159,7 @@ const Total = (props: Props) => {
                     </BarChart>
                 </ResponsiveContainer>
                 :
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width={!forReport ? "100%" : "50%"} height={350}>
                 <AreaChart 
                     data={dataByGranularity(data, granularity, totalHandler, false)}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -165,6 +190,8 @@ const Total = (props: Props) => {
                 </AreaChart>
             </ResponsiveContainer>
         }  
+        </div>
+            </div>
         </div>
     )
 }
