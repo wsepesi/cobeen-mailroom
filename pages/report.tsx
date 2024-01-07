@@ -25,6 +25,7 @@ import Total from "@/components/Total"
 import { TypographyH1 } from "@/components/ui/h1"
 import { TypographyH2 } from "@/components/ui/h2"
 import { TypographyP } from "@/components/ui/p"
+import { YamHover } from "@/components/YamHover"
 import { columns } from "@/components/columns"
 
 const lower = (s: string): Hall => {
@@ -108,7 +109,10 @@ export default function Report() {
     return (
         <div className="flex flex-col justify-start items-center w-full h-full min-h-[100vh]">
             <TypographyH1 className="mt-5 mb-1 font-sans text-3xl">{HALL} Hall Report -- {INTERVAL}</TypographyH1>
-            <TypographyH2 className="font-mono mb-3 text-sm">Generated with [Yam]🍠</TypographyH2>
+            <div className="flex flex-row items-center justify-center">
+                <TypographyH2 className="font-mono mb-3 text-sm">Exported from</TypographyH2>
+                <YamHover />
+                </div>
             {isLoading || data === null || loggedData === null ? 
                 <Skeleton className="w-full" /> :
                 <div className="flex flex-col items-center justify-center w-full min-h-[80vh]">
