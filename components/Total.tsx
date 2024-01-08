@@ -62,7 +62,7 @@ const Total = (props: Props) => {
             </Select>
             <div className={`flex w-full`}>
                 <div className="flex flex-col w-full">
-                <TypographyP>Packages Ingested by {firstCharToCaps(granularity)}</TypographyP>
+                {/* <TypographyP>Packages Ingested by {firstCharToCaps(granularity)}</TypographyP> */}
             {granularity === "day" ? 
                 <ResponsiveContainer width="100%" height={350}>
                     <BarChart data={dataByGranularity(data, granularity, totalHandler, true)}>
@@ -90,7 +90,7 @@ const Total = (props: Props) => {
                                 stackId="stack"
                             />
                         })}
-                        <Legend />
+                        <Legend content={<p>Packages Ingested by {firstCharToCaps(granularity)}</p>} verticalAlign="top"/>
                     </BarChart>
                 </ResponsiveContainer>
                 :
@@ -121,13 +121,13 @@ const Total = (props: Props) => {
                             fill={`url("#color${hall}")`}
                             />
                     })}
-                    <Legend />
+                    <Legend content={<p>Packages Ingested by {firstCharToCaps(granularity)}</p>} verticalAlign="top"/>
                 </AreaChart>
             </ResponsiveContainer>
         }  
         </div>
         <div className="flex flex-col w-full">
-        <TypographyP>Packages Retrieved by {firstCharToCaps(granularity)}</TypographyP>
+        {/* <TypographyP>Packages Retrieved by {firstCharToCaps(granularity)}</TypographyP> */}
             {granularity === "day" ? 
                 <ResponsiveContainer width={!forReport ? "100%" : "50%"} height={350}>
                     <BarChart data={dataByGranularity(data, granularity, totalHandler, false)}>
@@ -155,7 +155,7 @@ const Total = (props: Props) => {
                                 stackId="stack"
                             />
                         })}
-                        <Legend />
+                        <Legend content={<p>Packages Retrieved by {firstCharToCaps(granularity)}</p>} verticalAlign="top"/>
                     </BarChart>
                 </ResponsiveContainer>
                 :
@@ -186,7 +186,7 @@ const Total = (props: Props) => {
                             fill={`url("#color${hall}")`}
                             />
                     })}
-                    <Legend />
+                    <Legend content={<p>Packages Retrieved by {firstCharToCaps(granularity)}</p>} verticalAlign="top"/>
                 </AreaChart>
             </ResponsiveContainer>
         }  

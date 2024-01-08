@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import ByDistributor from "@/components/ByDistributor"
 import { DataTable } from "@/components/ui/data-table"
 import { Download } from "lucide-react"
+import PackagesByStudentBarChart from "@/components/PackagesByStudentBarChart"
 import { Skeleton } from "@/components/ui/skeleton"
 import Total from "@/components/Total"
 import { TypographyH1 } from "@/components/ui/h1"
@@ -124,12 +125,12 @@ export default function Report() {
                         <TabsContent value="stats">
                             <Card className={cardCn}>
                             <CardHeader className="mb-0 pb-2">
-                                <CardTitle className="text-lg">Package Statistics</CardTitle>
+                                <CardTitle className="text-xl">Package Statistics</CardTitle>
                                 <CardDescription>
                                 Figures generated from package data in {INTERVAL}.
                                 </CardDescription>
                             </CardHeader>
-                            <CardContent className="">
+                            <CardContent className="my-3">
                                 <div>
                                     <div className="flex flex-row items-center justify-start">
                                         <TypographyP className="mr-2"><strong>Total Packages:</strong></TypographyP>
@@ -160,7 +161,10 @@ export default function Report() {
                                 <Total
                                     data={combineData(data, loggedData)}
                                     halls={[lower(HALL)]}
-                                />        
+                                />
+                                <PackagesByStudentBarChart
+                                    data={loggedData.map((d) => d.packages).flat()}
+                                />  
                             </CardContent>
                             </Card>
                         </TabsContent>
