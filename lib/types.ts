@@ -84,4 +84,50 @@ type KeyPair = {
     pass: string
 }
 
-export type { Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }
+type DashboardPackage = {
+    packageId: number,
+    name: string,
+    email: string,
+    studentId: string,
+    provider: string,
+    ingestedTime: string
+}
+
+type DashboardLogged = DashboardPackage &{
+    retrievedTime: string
+}
+
+type Hall = "cobeen" | "mashuda" | "carpenter"
+
+type HallStats = {
+    hall: Hall,
+    packages: DashboardPackage[]
+}
+
+type HallLogged = {
+    hall: Hall,
+    packages: DashboardLogged[]
+}
+
+type HallTotal = {
+    [K in Hall]?: number
+}
+
+type MonthData = HallTotal & {
+    name: string,
+}
+
+type WeekData = HallTotal & {
+    name: string,
+}
+
+type DayData = HallTotal & {
+    name: string,
+}
+
+type Month = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | 
+    "Sep" | "Oct" | "Nov" | "Dec"
+
+type Granularity = "month" | "week" | "day"
+
+export type { HallLogged, DashboardLogged, Granularity, HallTotal, MonthData, WeekData, DayData, Month, Hall, HallStats, DashboardPackage, Counter, PackageNoIds, Data, AcProps, MaybeData, Package, Student, LogPackageNoId, LogPackage, KeyPair, Roster, FullStudent, SafeRoster, AmbigiousRoster }
