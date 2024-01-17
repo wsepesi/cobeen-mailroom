@@ -48,6 +48,26 @@ const lower = (s: string): Hall => {
           return date >= startDate && date <= endDate
       })
   }
+
+  const restrictCombinedData = (data: HallStats[]): HallStats[] => {
+    const startDate = new Date("2023-08-01")
+    const endDate = new Date("2023-12-31")
+    return data.map((d) => {
+        return {
+            hall: d.hall,
+            packages: d.packages.filter((pkg) => {
+                const date = new Date(pkg.ingestedTime)
+                if (pkg.hasOwnProperty("retrievedTime")) {
+                    const newpkg = pkg as DashboardLogged
+                    const retrievedDate = new Date(newpkg.retrievedTime)
+                    return date >= startDate && date <= endDate && retrievedDate >= startDate && retrievedDate <= endDate
+                } else {
+                    return date >= startDate && date <= endDate
+                }
+            })
+        }
+    })
+}
   
   type ProviderData = {
       provider: string,
@@ -190,7 +210,7 @@ const lower = (s: string): Hall => {
                                       </div> */}
                                   </div>
                                   <Total
-                                      data={combineData(data, loggedData)}
+                                      data={restrictCombinedData(combineData(data, loggedData))}
                                       halls={[lower(HALL)]}
                                   />
                                   <PackagesByStudentBarChart
