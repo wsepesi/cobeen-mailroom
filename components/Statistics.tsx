@@ -12,6 +12,8 @@ type Props = {
 
 const AUGUST = 7
 
+const cutoffDate = new Date("2023-08-01")
+
 /**
  * Listed numerical statistics about the packages in the system. Contains the following:
  * - Total number of packages
@@ -31,9 +33,8 @@ const Statistics = (props: Props): ReactElement => {
         }
         if (yearly) {
             return hallData.packages.reduce((acc, curr) => {
-                const year = new Date(curr.ingestedTime).getFullYear()
-                const month = new Date(curr.ingestedTime).getMonth()
-                if (year === 2023 && month >= AUGUST) {
+                const today = new Date(curr.ingestedTime)
+                if (today > cutoffDate) {
                     return acc + 1
                 }
                 return acc
@@ -49,9 +50,8 @@ const Statistics = (props: Props): ReactElement => {
         if (yearly) {
             return data.reduce((acc, curr) => {
                 // check pkg.ingestedTime to make sure it is after august 2023
-                const year = new Date(curr.packages[0].ingestedTime).getFullYear()
-                const month = new Date(curr.packages[0].ingestedTime).getMonth()
-                if (year === 2023 && month >= AUGUST) {
+                const today = new Date(curr.packages[0].ingestedTime)
+                if (today > cutoffDate) {
                     return acc + curr.packages.length
                 }
                 return acc
@@ -74,7 +74,7 @@ const Statistics = (props: Props): ReactElement => {
             return hallData.packages.reduce((acc, curr) => {
                 const year = new Date(curr.ingestedTime).getFullYear()
                 const month = new Date(curr.ingestedTime).getMonth()
-                if (year === 2023 && month >= AUGUST) {
+                if (year >= 2023 && month >= AUGUST) {
                     return acc + 1
                 }
                 return acc
@@ -92,7 +92,7 @@ const Statistics = (props: Props): ReactElement => {
                 return acc + curr.packages.reduce((acc, curr) => {
                     const year = new Date(curr.ingestedTime).getFullYear()
                     const month = new Date(curr.ingestedTime).getMonth()
-                    if (year === 2023 && month >= AUGUST) {
+                    if (year >= 2023 && month >= AUGUST) {
                         return acc + 1
                     }
                     return acc

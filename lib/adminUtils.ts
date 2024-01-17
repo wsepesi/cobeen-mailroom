@@ -197,15 +197,23 @@ const dataByMonths = (
     handlerFunc: (data: MonthData[], datum: MonthData, name: Month | string, hall: Hall) => void,
     inbound: boolean
 ): MonthData[] => {
-    const filterFunc = (date: Date, data: MonthData[]): [Month, MonthData] => {
-        const month: Month = months[date.getMonth()]
+    const filterFunc = (date: Date, data: MonthData[]): [string, MonthData] => {
+        const month: string = `${months[date.getMonth()]} ${date.getFullYear()}`
         const datum = data.find((d) => d.name === month)
         return [month, datum!]
     }
     const sortFunc = (data: MonthData[]): MonthData[] => {
-        // sort data by month
+        // sort data by month and year
         data.sort((a, b) => {
-            return months.indexOf(a.name as Month) - months.indexOf(b.name as Month)
+            const aMonth = months.indexOf(a.name.split(' ')[0] as Month)
+            const aYear = parseInt(a.name.split(' ')[1])
+            const bMonth = months.indexOf(b.name.split(' ')[0] as Month)
+            const bYear = parseInt(b.name.split(' ')[1])
+            if (aYear === bYear) {
+                return aMonth - bMonth
+            } else {
+                return aYear - bYear
+            }
         })
         return data
     }
@@ -228,13 +236,18 @@ const dataByWeeks = (
         const day = date.getDay()
         const monday = new Date(date)
         monday.setDate(date.getDate() - (day === 0 ? 6 : day - 1))
-        const week = `${monday.getMonth() + 1}/${monday.getDate()}`
+        const week = `${monday.getMonth() + 1}/${monday.getDate()}/${monday.getFullYear().toString().slice(2, 4)}`
         const datum = data.find((d) => d.name === week)
         return [week, datum!]
     }
     const sortFunc = (data: WeekData[]): WeekData[] => {
         // sort data by week (first sort by month, then day)
         data.sort((a, b) => {
+            const aYear = parseInt(a.name.split('/')[2])
+            const bYear = parseInt(b.name.split('/')[2])
+            if (aYear !== bYear) {
+                return aYear - bYear
+            }
             const aMonth = parseInt(a.name.split('/')[0])
             const bMonth = parseInt(b.name.split('/')[0])
             if (aMonth !== bMonth) {
@@ -256,13 +269,18 @@ const dataByDays = (
     inbound: boolean
 ): DayData[] => {
     const filterFunc = (date: Date, data: DayData[]): [string, DayData] => {
-        const day = `${date.getMonth() + 1}/${date.getDate()}`
+        const day = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().slice(2, 4)}`
         const datum = data.find((d) => d.name === day)
         return [day, datum!]
     }
     const sortFunc = (data: DayData[]): DayData[] => {
-        // sort data by day (first sort by month, then day)
+        // sort data by day (first sort by year, then month, then day)
         data.sort((a, b) => {
+            const aYear = parseInt(a.name.split('/')[2])
+            const bYear = parseInt(b.name.split('/')[2])
+            if (aYear !== bYear) {
+                return aYear - bYear
+            }
             const aMonth = parseInt(a.name.split('/')[0])
             const bMonth = parseInt(b.name.split('/')[0])
             if (aMonth !== bMonth) {
@@ -342,7 +360,7 @@ const avgTimeToPickup = (data: HallLogged[], granularity: Granularity): MonthDat
                 const day = date.getDay()
                 const monday = new Date(date)
                 monday.setDate(date.getDate() - (day === 0 ? 6 : day - 1))
-                const week = `${monday.getMonth() + 1}/${monday.getDate()}`
+                const week = `${monday.getMonth() + 1}/${monday.getDate()}/${monday.getFullYear().toString().slice(2, 4)}`
                 // const week: string = new Date(retrievedDate.getTime() - (retrievedDate.getDay() - 1) * 24 * 60 * 60 * 1000).toDateString()
                 const timeToRetrieval = (retrievedDate.getTime() - ingestedDate.getTime()) / 1000 / 60 / 60
 
@@ -362,7 +380,7 @@ const avgTimeToPickup = (data: HallLogged[], granularity: Granularity): MonthDat
                     const retrievedDate = new Date(pkg.retrievedTime)
                     const ingestedDate = new Date(pkg.ingestedTime)
 
-                    const day = `${retrievedDate.getMonth() + 1}/${retrievedDate.getDate()}`
+                    const day = `${retrievedDate.getMonth() + 1}/${retrievedDate.getDate()}/${retrievedDate.getFullYear().toString().slice(2, 4)}`
                     const timeToRetrieval = (retrievedDate.getTime() - ingestedDate.getTime()) / 1000 / 60 / 60
 
                     if (!granularityToDataMap.has(day)) {
@@ -404,10 +422,15 @@ const avgTimeToPickup = (data: HallLogged[], granularity: Granularity): MonthDat
     // sort final data by date
     if (granularity !== "month") {
         finalData.sort((a, b) => {
+            const y1 = parseInt(a.name.split("/")[2])
+            const y2 = parseInt(b.name.split("/")[2])
             const m1 = a.name.split("/")[0]
             const d1 = a.name.split("/")[1]
             const m2 = b.name.split("/")[0]
             const d2 = b.name.split("/")[1]
+            if (y1 !== y2) {
+                return y1 - y2
+            } else
             if (m1 === m2) {
                 return parseInt(d1) - parseInt(d2)
             } else {

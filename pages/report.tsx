@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts"
-import { DashboardLogged, Hall, HallLogged, HallStats } from "@/lib/types"
+import { DashboardLogged, DashboardPackage, Hall, HallLogged, HallStats } from "@/lib/types"
 import {
   Tabs,
   TabsContent,
@@ -40,6 +40,26 @@ const lower = (s: string): Hall => {
         default:
             throw new Error("Invalid hall")
     }
+}
+
+const restrictCombinedData = (data: HallStats[]): HallStats[] => {
+    const startDate = new Date("2023-08-01")
+    const endDate = new Date("2023-12-31")
+    return data.map((d) => {
+        return {
+            hall: d.hall,
+            packages: d.packages.filter((pkg) => {
+                const date = new Date(pkg.ingestedTime)
+                if (pkg.hasOwnProperty("retrievedTime")) {
+                    const newpkg = pkg as DashboardLogged
+                    const retrievedDate = new Date(newpkg.retrievedTime)
+                    return date >= startDate && date <= endDate && retrievedDate >= startDate && retrievedDate <= endDate
+                } else {
+                    return date >= startDate && date <= endDate
+                }
+            })
+        }
+    })
 }
 
 const restrictToInterval = (data: DashboardLogged[], interval: string): DashboardLogged[] => {
@@ -192,7 +212,7 @@ export default function Report() {
                                     </div> */}
                                 </div>
                                 <Total
-                                    data={combineData(data, loggedData)}
+                                    data={restrictCombinedData(combineData(data, loggedData))}
                                     halls={[lower(HALL)]}
                                 />
                                 <PackagesByStudentBarChart
