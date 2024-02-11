@@ -26,13 +26,14 @@ const getEmailContent = (pkg: Package): string => {
 This email is to notify you that you have a package delivered by ${pkg.provider} to pick up in the Mashuda Hall mailroom. Be prepared to provide your student ID to be able to pick up your package. 
 
 The mailroom is open the following times:
-- Monday 11-1, 5-9
-- Tuesday 11-3, 5-7
-- Wednesday 11-3, 5-7
-- Thursday 11-5
-- Friday 11-3, 5-7
-- Saturday 12-3
-- Sunday 12-3, 5-7
+
+Monday 11am-3pm, 5-7pm
+Tuesday 11am-1pm, 5-9pm
+Wednesday 1-5pm, 7-9pm
+Thursday 11am-1pm, 3-5pm, 7-9pm
+Friday 11am-3pm, 5-7pm
+Saturday 11am-3pm
+Sunday 5-7pm
 
 Please let the front desk know if you have any questions!
 
