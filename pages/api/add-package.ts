@@ -33,7 +33,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Package>) => {
         }
         PACKAGE_GLOBAL = inserted_object
 
+        const id = setTimeout(() => {
+          res.status(500).json(PACKAGE_GLOBAL)
+        }, 7000)
+
         await sendEmail(inserted_object)
+        clearTimeout(id)
 
         res.json(inserted_object)
   } catch (e) {
