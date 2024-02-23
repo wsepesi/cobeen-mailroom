@@ -115,6 +115,8 @@ const Statistics = (props: Props): ReactElement => {
             <div className="flex flex-col justify-center items-center">
                 <p>Statistics {yearly ? `(yearly)` : `(All Time)`}</p>
                 <div className="flex flex-row justify-center items-center space-x-5">
+                    {!yearly && (
+                        <div>
                     <div className="flex flex-col justify-center items-center space-y-2">
                         <p>Total Packages</p>
                         <p>{getTotalPackages(yearly)}</p>
@@ -128,6 +130,7 @@ const Statistics = (props: Props): ReactElement => {
                             </div>
                         ))}
                     </div>
+                    </div>)}
                     <div className="flex flex-col justify-center items-center space-y-2">
                         <p>Total Logged Packages</p>
                         <p>{getTotalLoggedPackages(yearly)}</p>
