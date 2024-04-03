@@ -27,9 +27,9 @@ This email is to notify you that you have a package delivered by ${pkg.provider}
 
 The mailroom is open the following times:
 
-Monday 11am-3pm, 5-7pm
+Monday 11am-1pm, 5-9pm
 Tuesday 11am-1pm, 5-9pm
-Wednesday 1-5pm, 7-9pm
+Wednesday 11am-1pm, 3-5pm, 7-9pm
 Thursday 11am-1pm, 3-5pm, 7-9pm
 Friday 11am-3pm, 5-7pm
 Saturday 11am-3pm
