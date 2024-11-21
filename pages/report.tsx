@@ -42,9 +42,12 @@ const lower = (s: string): Hall => {
     }
 }
 
+const YEAR = "2024"
+const startDate = new Date(`${YEAR}-08-01`)
+const endDate = new Date(`${YEAR}-12-31`)
+
 const restrictCombinedData = (data: HallStats[]): HallStats[] => {
-    const startDate = new Date("2023-08-01")
-    const endDate = new Date("2023-12-31")
+    
     return data.map((d) => {
         return {
             hall: d.hall,
@@ -63,8 +66,6 @@ const restrictCombinedData = (data: HallStats[]): HallStats[] => {
 }
 
 const restrictToInterval = (data: DashboardLogged[], interval: string): DashboardLogged[] => {
-    const startDate = new Date("2023-08-01")
-    const endDate = new Date("2023-12-31")
     return data.filter((d) => {
         const date = new Date(d.ingestedTime)
         return date >= startDate && date <= endDate
@@ -96,7 +97,7 @@ const filterDataToProviderOnly = (data: DashboardLogged[]): ProviderData[] => {
 const HALL = "Cobeen"
 
 const cardCn = "h-[78vh] overflow-auto"
-const INTERVAL = "Fall 2023"
+const INTERVAL = `Fall ${YEAR}`
 
 const getNumStudents = (data: DashboardLogged[]): number => {
     const students = new Set<string>()
@@ -107,8 +108,6 @@ const getNumStudents = (data: DashboardLogged[]): number => {
 }
 
 const getNumDailyAvgPkgs = (data: DashboardLogged[]): number => {
-    const startDate = new Date("2023-08-01")
-    const endDate = new Date("2023-12-31")
     const days = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
     return data.length / days
 }
