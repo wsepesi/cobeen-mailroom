@@ -144,7 +144,7 @@ export default function Report() {
     }, [])
 
     const downloadData = () => {
-        const tempcsv = loggedData!.map((d) => d.packages).flat().filter((d) => new Date(d.ingestedTime) >= new Date("2023-08-01") && new Date(d.ingestedTime) <= new Date("2023-12-31")).map((d) => {
+        const tempcsv = loggedData!.map((d) => d.packages).flat().filter((d) => new Date(d.ingestedTime) >= startDate && new Date(d.ingestedTime) <= endDate).map((d) => {
             return `${d.name},${d.email},${d.studentId},${d.provider},${d.ingestedTime},${new Date(d.retrievedTime).toISOString()}`
         }).join("\n")
         const csv = "Name,Email,Student ID,Provider,Ingested Time,Retrieved Time\n" + tempcsv
