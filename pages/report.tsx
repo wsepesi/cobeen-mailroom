@@ -39,10 +39,12 @@ const lower = (s: string): Hall => {
               throw new Error("Invalid hall")
       }
   }
+
+const YEAR = "2024"
+const startDate = new Date(`${YEAR}-08-01`)
+const endDate = new Date(`${YEAR}-12-31`)
   
   const restrictToInterval = (data: DashboardLogged[], interval: string): DashboardLogged[] => {
-      const startDate = new Date("2023-08-01")
-      const endDate = new Date("2023-12-31")
       return data.filter((d) => {
           const date = new Date(d.ingestedTime)
           return date >= startDate && date <= endDate
@@ -50,8 +52,6 @@ const lower = (s: string): Hall => {
   }
 
   const restrictCombinedData = (data: HallStats[]): HallStats[] => {
-    const startDate = new Date("2023-08-01")
-    const endDate = new Date("2023-12-31")
     return data.map((d) => {
         return {
             hall: d.hall,
@@ -94,7 +94,7 @@ const lower = (s: string): Hall => {
   const HALL = "Carpenter"
   
   const cardCn = "h-[78vh] overflow-auto"
-  const INTERVAL = "Fall 2023"
+  const INTERVAL = `Fall ${YEAR}`
   
   const getNumStudents = (data: DashboardLogged[]): number => {
       const students = new Set<string>()
@@ -105,8 +105,6 @@ const lower = (s: string): Hall => {
   }
   
   const getNumDailyAvgPkgs = (data: DashboardLogged[]): number => {
-      const startDate = new Date("2023-08-01")
-      const endDate = new Date("2023-12-31")
       const days = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
       return data.length / days
   }
@@ -143,7 +141,7 @@ const lower = (s: string): Hall => {
       }, [])
   
       const downloadData = () => {
-          const tempcsv = loggedData!.map((d) => d.packages).flat().filter((d) => new Date(d.ingestedTime) >= new Date("2023-08-01") && new Date(d.ingestedTime) <= new Date("2023-12-31")).map((d) => {
+          const tempcsv = loggedData!.map((d) => d.packages).flat().filter((d) => new Date(d.ingestedTime) >= startDate && new Date(d.ingestedTime) <= endDate).map((d) => {
               return `${d.name},${d.email},${d.studentId},${d.provider},${d.ingestedTime},${new Date(d.retrievedTime).toISOString()}`
           }).join("\n")
           const csv = "Name,Email,Student ID,Provider,Ingested Time,Retrieved Time\n" + tempcsv
